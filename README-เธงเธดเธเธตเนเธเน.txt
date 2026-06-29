@@ -1,43 +1,18 @@
-Krukung Game Hub V6 - พร้อมใช้งาน
+Krukung Game Hub V7 - แบบโฟลเดอร์เกม
 
-ไฟล์ที่ต้องอัปโหลดขึ้น GitHub
-1) index.html
-2) admin.html
-3) game-player.html
-4) โฟลเดอร์ css ทั้งโฟลเดอร์
-5) โฟลเดอร์ js ทั้งโฟลเดอร์
+วิธีเพิ่มเกมใหม่
+1) เปิดโฟลเดอร์โปรเจกต์ krukung1234.github.io ในเครื่อง
+2) เข้าโฟลเดอร์ games
+3) สร้างโฟลเดอร์เกม เช่น ar-sudoku
+4) วางไฟล์เกมทั้งหมดไว้ข้างใน โดยต้องมี index.html
+   ตัวอย่าง: games/ar-sudoku/index.html
+5) เปิด GitHub Desktop
+6) Commit และ Push
+7) เข้า admin.html
+8) กรอกชื่อเกม หมวดหมู่ รายละเอียด รูปปก และชื่อโฟลเดอร์ เช่น ar-sudoku
+9) กดบันทึก
 
-หมายเหตุสำคัญ
-- ใน GitHub ต้องให้ css และ js เป็นโฟลเดอร์ ไม่ใช่ไฟล์
-- ถ้าเคยสร้าง css/js ผิดเป็นไฟล์ ให้ลบก่อน แล้วอัปโหลดโฟลเดอร์ใหม่
-
-Firebase Rules สำหรับทดสอบ
-Firestore:
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write: if true;
-    }
-  }
-}
-
-Storage:
-rules_version = '2';
-service firebase.storage {
-  match /b/{bucket}/o {
-    match /{allPaths=**} {
-      allow read, write: if true;
-    }
-  }
-}
-
-วิธีเพิ่มเกม
-1) เปิด admin.html
-2) ใส่รหัส vip69
-3) กรอกชื่อเกม
-4) เลือกรูปปก
-5) เลือกโฟลเดอร์เกม หรือเลือกไฟล์ index.html
-6) กดบันทึก
-
-เกมที่อัปโหลดควรมีไฟล์ index.html อยู่ด้านใน
+หมายเหตุ
+- ไม่ต้องใช้ Firebase Storage
+- Admin ใช้ Firestore เฉพาะเก็บข้อมูลรายชื่อเกม
+- รูปปกใส่เป็นลิงก์ได้ หรือวางรูปไว้ใน images แล้วใส่ images/ชื่อรูป.png

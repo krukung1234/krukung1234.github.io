@@ -1,1 +1,87 @@
-<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Admin | Krukung Game Hub</title><link rel="stylesheet" href="css/admin.css"></head><body><main class="wrap"><section id="loginBox" class="login card"><h1>🔐 Admin</h1><p>ระบบจัดการเกม ครูกุ้งสอนไอที</p><input id="password" type="password" placeholder="รหัส Admin"><button onclick="login()">เข้าสู่ระบบ</button><small>รหัสเริ่มต้น: vip69</small></section><section id="adminBox" class="hidden"><div class="dash"><div><h1>🎮 จัดการเกม</h1><p>เพิ่มเกมด้วยไฟล์ index.html หรือเลือกทั้งโฟลเดอร์เกม</p></div><button class="ghost" onclick="logout()">ออกจากระบบ</button></div><div class="stats"><div class="stat"><b id="totalGames">0</b><span>เกมทั้งหมด</span></div><div class="stat"><b id="openGames">0</b><span>เปิดเล่น</span></div></div><section class="card formcard"><h2 id="formTitle">➕ เพิ่มเกมใหม่</h2><form id="gameForm"><input type="hidden" id="id"><div class="grid2"><label>ชื่อเกม<input id="title" required placeholder="เช่น ภารกิจคัดแยกขยะ"></label><label>หมวดหมู่<select id="category"><option>สิ่งแวดล้อม</option><option>คณิตศาสตร์</option><option>ภาษาไทย</option><option>ภาษาอังกฤษ</option><option>วิทยาศาสตร์</option><option>คอมพิวเตอร์</option><option>AI</option><option>AR</option><option>อื่น ๆ</option></select></label></div><label>รายละเอียดสั้น ๆ<textarea id="description" placeholder="อธิบายเกมสั้น ๆ"></textarea></label><div class="grid2"><label>รูปปกเกม<input id="coverFile" type="file" accept="image/*"><small>เลือกไฟล์รูป หรือเว้นไว้แล้วใช้ลิงก์รูป</small></label><label>ลิงก์รูปภาพเดิม<input id="image" placeholder="https://... หรือ images/cover.png"></label></div><label>ไฟล์เกม<input id="gameFiles" type="file" webkitdirectory directory multiple><small>แนะนำ: เลือกทั้งโฟลเดอร์เกมที่มี index.html</small></label><div class="or">หรือเลือกเฉพาะไฟล์ index.html / รูปภาพหลายไฟล์</div><label>เลือกไฟล์เกมหลายไฟล์<input id="multiFiles" type="file" multiple></label><div class="grid2"><label>สถานะ<select id="status"><option value="open">เปิดเล่น</option><option value="soon">เร็ว ๆ นี้</option><option value="hidden">ซ่อน</option></select></label><label>ลิงก์เกมเดิม<input id="link" placeholder="ถ้ามีลิงก์เดิมใส่ได้ / ถ้าอัปโหลดไฟล์ไม่ต้องใส่"></label></div><div id="progress" class="progress hidden"><div></div><span>0%</span></div><div class="actions"><button type="submit">💾 บันทึกเกม</button><button type="button" class="warn" onclick="resetForm()">ล้างฟอร์ม</button></div></form></section><section class="card"><div class="listhead"><h2>รายการเกม</h2><input id="adminSearch" placeholder="ค้นหาเกม..."></div><div id="list" class="list"></div></section></section></main><script src="js/config.js"></script><script src="js/admin.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin | Krukung Game Hub</title>
+  <link rel="stylesheet" href="css/admin.css" />
+</head>
+<body>
+  <div class="bg"></div>
+  <main class="wrap">
+    <section id="loginBox" class="card login-card">
+      <h1>🔐 Admin</h1>
+      <p>ระบบจัดการเกม ครูกุ้งสอนไอที</p>
+      <div class="login-row">
+        <input id="password" type="password" placeholder="รหัส Admin" />
+        <button onclick="login()">เข้าสู่ระบบ</button>
+      </div>
+      <small>รหัสเริ่มต้น: <b>vip69</b></small>
+    </section>
+
+    <section id="adminBox" class="hidden">
+      <header class="top">
+        <div>
+          <h1>🎮 Krukung Game Hub</h1>
+          <p>เพิ่มเกมโดยใช้โฟลเดอร์ใน <b>games/ชื่อโฟลเดอร์/index.html</b></p>
+        </div>
+        <button class="ghost" onclick="logout()">ออกจากระบบ</button>
+      </header>
+
+      <section class="stats">
+        <div class="stat"><b id="totalGames">0</b><span>เกมทั้งหมด</span></div>
+        <div class="stat"><b id="openGames">0</b><span>เปิดเล่น</span></div>
+        <div class="stat"><b id="soonGames">0</b><span>เร็ว ๆ นี้</span></div>
+      </section>
+
+      <section class="card">
+        <h2 id="formTitle">➕ เพิ่มเกมใหม่</h2>
+        <form id="gameForm">
+          <input type="hidden" id="id" />
+          <div class="grid2">
+            <label>ชื่อเกม
+              <input id="title" required placeholder="เช่น AR Sudoku" />
+            </label>
+            <label>หมวดหมู่
+              <select id="category">
+                <option>สิ่งแวดล้อม</option><option>คณิตศาสตร์</option><option>ภาษาไทย</option><option>ภาษาอังกฤษ</option><option>วิทยาศาสตร์</option><option>คอมพิวเตอร์</option><option>AI</option><option>AR</option><option>อื่น ๆ</option>
+              </select>
+            </label>
+          </div>
+          <label>รายละเอียดสั้น ๆ
+            <textarea id="description" placeholder="อธิบายเกมสั้น ๆ"></textarea>
+          </label>
+          <div class="grid2">
+            <label>รูปปก / ลิงก์รูป
+              <input id="image" placeholder="เช่น images/cover.png หรือ https://..." />
+            </label>
+            <label>ชื่อโฟลเดอร์เกม
+              <input id="folder" required placeholder="เช่น ar-sudoku" />
+            </label>
+          </div>
+          <div class="hint">ตัวอย่าง: ถ้าใส่ <b>ar-sudoku</b> ระบบจะสร้างลิงก์เป็น <b>games/ar-sudoku/index.html</b></div>
+          <div class="grid2">
+            <label>สถานะ
+              <select id="status"><option value="open">เปิดเล่น</option><option value="soon">เร็ว ๆ นี้</option><option value="hidden">ซ่อน</option></select>
+            </label>
+            <label>ลิงก์เกมที่ระบบสร้างให้
+              <input id="linkPreview" readonly placeholder="สร้างอัตโนมัติ" />
+            </label>
+          </div>
+          <div class="actions">
+            <button type="submit">💾 บันทึกเกม</button>
+            <button type="button" class="warn" onclick="resetForm()">ล้างฟอร์ม</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="card">
+        <div class="list-head"><h2>รายการเกม</h2><input id="searchAdmin" placeholder="ค้นหาเกม..." /></div>
+        <div id="list" class="list"></div>
+      </section>
+    </section>
+  </main>
+  <script src="js/config.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
