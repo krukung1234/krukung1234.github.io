@@ -1,59 +1,60 @@
 // วางลิงก์ Apps Script /exec ตรงนี้
 const API_URL = "https://script.google.com/macros/s/AKfycbzjV6IWOQJedG3ZnujlgQvij6puPIBYvCtvGnny05xwb6N7_acU3UPEx83CIik1uV0mQQ/exec";
 
-// ===============================
+// ==========================================
 // config.js
-// ตั้งค่าระบบเว็บรวมเกมครูกุ้ง
-// ใช้ Firebase แทน Apps Script
-// ===============================
+// Krukung Game Hub
+// Firebase Configuration
+// ==========================================
 
-// รหัสผ่าน Admin แบบง่าย
-// ถ้ายังไม่ทำ Firebase Login ใช้ตัวนี้ไปก่อน
+// -------------------------------
+// Admin
+// -------------------------------
 const ADMIN_PASSWORD = "vip69";
 
+// -------------------------------
 // Firebase Config
-// ให้เปลี่ยนค่าด้านล่างเป็นของโปรเจกต์ krukung-game-hub
+// -------------------------------
 const firebaseConfig = {
-  apiKey: "วาง apiKey ตรงนี้",
+  apiKey: "AIzaSyCVYn2hDEXG4J08hZwf5WMI6kyIJbWPVwg",
   authDomain: "krukung-game-hub.firebaseapp.com",
   projectId: "krukung-game-hub",
   storageBucket: "krukung-game-hub.firebasestorage.app",
-  messagingSenderId: "วาง messagingSenderId ตรงนี้",
-  appId: "วาง appId ตรงนี้"
+  messagingSenderId: "63458233316",
+  appId: "1:63458233316:web:3b3666b91b16bba28795f1",
+  measurementId: "G-HWM115TVMB"
 };
 
-// ชื่อ Collection ใน Firestore
+// -------------------------------
+// Firestore
+// -------------------------------
 const COLLECTION_GAMES = "games";
 
-// ค่าเริ่มต้นของระบบ
+// -------------------------------
+// Default
+// -------------------------------
 const DEFAULT_GAME_IMAGE = "https://via.placeholder.com/400x300";
 const DEFAULT_GAME_URL = "#";
 
-// หมวดหมู่เกม
+// -------------------------------
+// Categories
+// -------------------------------
 const GAME_CATEGORIES = [
   "คณิตศาสตร์",
   "ภาษาไทย",
   "ภาษาอังกฤษ",
   "วิทยาศาสตร์",
   "คอมพิวเตอร์",
-  "เกม AR",
-  "เกมฝึกสมอง",
+  "AR",
+  "Coding",
+  "AI",
   "อื่น ๆ"
 ];
 
-// สถานะเกม
+// -------------------------------
+// Status
+// -------------------------------
 const GAME_STATUS = {
   OPEN: "เปิดเล่น",
   CLOSED: "ปิด"
-};
-
-// Export สำหรับไฟล์อื่นเรียกใช้
-window.APP_CONFIG = {
-  ADMIN_PASSWORD,
-  firebaseConfig,
-  COLLECTION_GAMES,
-  DEFAULT_GAME_IMAGE,
-  DEFAULT_GAME_URL,
-  GAME_CATEGORIES,
-  GAME_STATUS
 };
