@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>กำลังเปิดเกม...</title>
+  <style>
+    html,body{margin:0;height:100%;font-family:system-ui,sans-serif;background:#111827;color:white}#loading{min-height:100vh;display:grid;place-items:center;text-align:center;padding:24px;box-sizing:border-box}iframe{width:100vw;height:100vh;border:0;background:white;display:none}.box{max-width:620px}.small{opacity:.75;font-size:14px}.btn{display:inline-block;margin-top:12px;background:#2563eb;color:white;padding:10px 14px;border-radius:12px;text-decoration:none;font-weight:700}
+  </style>
+</head>
+<body>
+  <div id="loading"><div class="box"><h1>🎮 กำลังเปิดเกม...</h1><p id="msg">กำลังโหลดไฟล์เกม</p><p class="small">รองรับ index.html ไฟล์เดียว, หลายไฟล์, โฟลเดอร์เกม และ ZIP</p></div></div>
+  <iframe id="gameFrame" allow="camera; microphone; fullscreen; autoplay; clipboard-read; clipboard-write"></iframe>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="js/config.js"></script>
+  <script>
+    const loading = document.getElementById("loading");
+    const msg = document.getElementById("msg");
+    const frame = document.getElementById("gameFrame");
+    const blobUrls = [];
+    const params = new URLSearchParams(location.search);
+    const id = params.get("id");
+
+    function setMsg(text) { msg.textContent = text; }
+    function isExternal(url) { return /^(https?:)?\/\//i.test(url) || /^(data:|blob:|mailto:|tel:|#)/i.test(url); }
+    function normalizePath(base, url) {
+      if (!url || isExternal(url)) return url;
+      const clean = url.split("?")[0].split("#")[0];
+      if (clean.startsWith("/")) return clean.slice(1);
+      const parts = (base ? base.split("/").slice(0, -1) : []).concat(clean.split("/"));
+      const stack = [];
+      for (const part of parts) {
+        if (!part || part === ".") continue;
+        if (part === "..") stack.pop(); else stack.push(part);
+      }
+      return stack.join("/");
+    }
+    function contentType(path) {
+      const p = path.toLowerCase();
+      if (p.endsWith(".html") || p.endsWith(".htm")) return "text/html";
+      if (p.endsWith(".css")) return "text/css";
+      if (p.endsWith(".js")) return "text/javascript";
+      if (p.endsWith(".json")) return "application/json";
+      if (p.endsWith(".png")) return "image/png";
+      if (p.endsWith(".jpg") || p.endsWith(".jpeg")) return "image/jpeg";
+      if (p.endsWith(".webp")) return "image/webp";
+      if (p.endsWith(".gif")) return "image/gif";
+      if (p.endsWith(".svg")) return "image/svg+xml";
+      if (p.endsWith(".mp3")) return "audio/mpeg";
+      if (p.endsWith(".wav")) return "audio/wav";
+      if (p.endsWith(".ogg")) return "audio/ogg";
+      if (p.endsWith(".mp4")) return "video/mp4";
+      if (p.endsWith(".webm")) return "video/webm";
+      if (p.endsWith(".woff")) return "font/woff";
+      if (p.endsWith(".woff2")) return "font/woff2";
+      return "application/octet-stream";
+    }
+    function makeBlobUrl(content, type) {
+      const url = URL.createObjectURL(new Blob([content], { type }));
+      blobUrls.push(url);
+      return url;
+    }
+    function rewriteCss(css, basePath, urlMap) {
+      return css.replace(/url\((['"]?)(.*?)\1\)/g, (m, q, raw) => {
+        if (!raw || isExternal(raw)) return m;
+        const key = normalizePath(basePath, raw);
+        return urlMap[key] ? `url(${q}${urlMap[key]}${q})` : m;
+      });
+    }
+    function rewriteHtml(html, entryPath, urlMap) {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, "text/html");
+      const attrs = [["img","src"],["script","src"],["link","href"],["audio","src"],["video","src"],["source","src"],["iframe","src"]];
+      for (const [tag, attr] of attrs) {
+        doc.querySelectorAll(`${tag}[${attr}]`).forEach((el) => {
+          const raw = el.getAttribute(attr);
+          const key = normalizePath(entryPath, raw);
+          if (urlMap[key]) el.setAttribute(attr, urlMap[key]);
+        });
+      }
+      doc.querySelectorAll("[style]").forEach((el) => el.setAttribute("style", rewriteCss(el.getAttribute("style"), entryPath, urlMap)));
+      doc.querySelectorAll("style").forEach((el) => { el.textContent = rewriteCss(el.textContent, entryPath, urlMap); });
+      const base = doc.createElement("base");
+      base.href = location.href;
+      doc.head.prepend(base);
+      return "<!DOCTYPE html>\n" + doc.documentElement.outerHTML;
+    }
+    function showFrame(htmlUrl) {
+      frame.src = htmlUrl;
+      frame.style.display = "block";
+      loading.style.display = "none";
+    }
+    function findEntry(paths) {
+      const lower = paths.map((p) => p.toLowerCase());
+      let idx = lower.findIndex((p) => p.endsWith("/index.html") || p === "index.html");
+      if (idx >= 0) return paths[idx];
+      idx = lower.findIndex((p) => p.endsWith("/game.html") || p === "game.html");
+      if (idx >= 0) return paths[idx];
+      idx = lower.findIndex((p) => p.endsWith("/main.html") || p === "main.html");
+      if (idx >= 0) return paths[idx];
+      idx = lower.findIndex((p) => p.endsWith(".html") || p.endsWith(".htm"));
+      return idx >= 0 ? paths[idx] : "";
+    }
+
+    async function openFromManifest(game) {
+      setMsg("กำลังเตรียมไฟล์เกม");
+      const manifest = game.manifest || [];
+      if (!manifest.length) throw new Error("ไม่พบรายการไฟล์เกม");
+      const entryPath = game.entryPath || findEntry(manifest.map((f) => f.path));
+      if (!entryPath) throw new Error("ไม่พบไฟล์ index.html หรือไฟล์ HTML สำหรับเริ่มเกม");
+
+      const urlMap = {};
+      const textFiles = {};
+      for (let i = 0; i < manifest.length; i++) {
+        const item = manifest[i];
+        const type = item.contentType || contentType(item.path);
+        setMsg(`กำลังโหลดไฟล์ ${i + 1}/${manifest.length}`);
+        const res = await fetch(item.url);
+        if (!res.ok) throw new Error("โหลดไฟล์เกมไม่ได้: " + item.path);
+        if (type.startsWith("text/") || /\.(html?|css|js|json|svg)$/i.test(item.path)) {
+          textFiles[item.path] = await res.text();
+        } else {
+          const blob = await res.blob();
+          urlMap[item.path] = makeBlobUrl(blob, type);
+        }
+      }
+      // สร้าง blob URL ให้ไฟล์ข้อความ โดย rewrite CSS ก่อน เพื่อให้รูปใน CSS เปิดได้
+      for (const [path, text] of Object.entries(textFiles)) {
+        if (/\.css$/i.test(path)) urlMap[path] = makeBlobUrl(rewriteCss(text, path, urlMap), contentType(path));
+      }
+      for (const [path, text] of Object.entries(textFiles)) {
+        if (!/\.css$/i.test(path) && path !== entryPath) urlMap[path] = makeBlobUrl(text, contentType(path));
+      }
+      const html = rewriteHtml(textFiles[entryPath], entryPath, urlMap);
+      showFrame(makeBlobUrl(html, "text/html"));
+    }
+
+    async function openFromZip(game) {
+      if (!window.JSZip) throw new Error("โหลด JSZip ไม่สำเร็จ กรุณาต่ออินเทอร์เน็ต");
+      setMsg("กำลังดาวน์โหลด ZIP");
+      const res = await fetch(game.zipUrl);
+      if (!res.ok) throw new Error("ดาวน์โหลด ZIP ไม่สำเร็จ");
+      setMsg("กำลังแตกไฟล์ ZIP");
+      const zip = await JSZip.loadAsync(await res.arrayBuffer());
+      const files = Object.values(zip.files).filter((f) => !f.dir);
+      const paths = files.map((f) => f.name);
+      const entryPath = findEntry(paths);
+      if (!entryPath) throw new Error("ไม่พบ index.html ใน ZIP");
+      const urlMap = {};
+      const textFiles = {};
+      for (let i = 0; i < files.length; i++) {
+        const f = files[i];
+        const type = contentType(f.name);
+        setMsg(`กำลังเตรียมไฟล์ ${i + 1}/${files.length}`);
+        if (type.startsWith("text/") || /\.(html?|css|js|json|svg)$/i.test(f.name)) textFiles[f.name] = await f.async("text");
+        else urlMap[f.name] = makeBlobUrl(await f.async("blob"), type);
+      }
+      for (const [path, text] of Object.entries(textFiles)) {
+        if (/\.css$/i.test(path)) urlMap[path] = makeBlobUrl(rewriteCss(text, path, urlMap), contentType(path));
+      }
+      for (const [path, text] of Object.entries(textFiles)) {
+        if (!/\.css$/i.test(path) && path !== entryPath) urlMap[path] = makeBlobUrl(text, contentType(path));
+      }
+      const html = rewriteHtml(textFiles[entryPath], entryPath, urlMap);
+      showFrame(makeBlobUrl(html, "text/html"));
+    }
+
+    async function main() {
+      try {
+        if (!id) throw new Error("ไม่พบรหัสเกม");
+        await window.firebaseReady;
+        const doc = await window.gamesRef.doc(id).get();
+        if (!doc.exists) throw new Error("ไม่พบข้อมูลเกม");
+        const game = doc.data();
+        document.title = game.title || "Krukung Game";
+        if (game.uploadMode === "files" || Array.isArray(game.manifest)) await openFromManifest(game);
+        else if (game.uploadMode === "zip" || game.zipUrl) await openFromZip(game);
+        else if (game.link && game.link !== "#") location.href = game.link;
+        else throw new Error("เกมนี้ยังไม่มีไฟล์หรือลิงก์สำหรับเปิดเล่น");
+      } catch (err) {
+        console.error(err);
+        setMsg("❌ " + (err.message || "เปิดเกมไม่สำเร็จ"));
+      }
+    }
+    main();
+    window.addEventListener("beforeunload", () => blobUrls.forEach((u) => URL.revokeObjectURL(u)));
+  </script>
+</body>
+</html>

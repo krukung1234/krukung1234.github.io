@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin | เพิ่มเกม</title>
+  <title>Admin | Krukung Game Hub</title>
   <link rel="stylesheet" href="css/admin.css">
 </head>
 <body>
   <main class="panel">
-    <section id="loginBox" class="card">
-      <h1>➕ เพิ่มเกมใหม่</h1>
+    <section id="loginBox" class="card login-card">
+      <h1>🔐 Admin เพิ่มเกม</h1>
       <label>รหัส Admin</label>
       <input id="password" type="password" placeholder="ใส่รหัส">
       <button onclick="login()">เข้าสู่ระบบ</button>
@@ -18,37 +18,64 @@
 
     <section id="adminBox" class="card hidden">
       <div class="head">
-        <h1>🎮 จัดการเกม</h1>
+        <div>
+          <h1>🎮 จัดการเกม</h1>
+          <p class="note">เพิ่มเกมได้ 3 แบบ: ไฟล์เดียว, ลากโฟลเดอร์เกม, หรืออัปโหลด ZIP</p>
+        </div>
         <button class="ghost" onclick="logout()">ออกจากระบบ</button>
       </div>
 
       <form id="gameForm">
         <input type="hidden" id="id">
 
-        <label>ชื่อเกม</label>
-        <input id="title" required placeholder="เช่น AR Sudoku">
+        <div class="grid2">
+          <div>
+            <label>ชื่อเกม</label>
+            <input id="title" required placeholder="เช่น AR Sudoku">
+          </div>
+          <div>
+            <label>หมวดหมู่</label>
+            <select id="category">
+              <option>สิ่งแวดล้อม</option>
+              <option>คณิตศาสตร์</option>
+              <option>ภาษาไทย</option>
+              <option>ภาษาอังกฤษ</option>
+              <option>วิทยาศาสตร์</option>
+              <option>คอมพิวเตอร์</option>
+              <option>AI</option>
+              <option>AR</option>
+              <option>อื่น ๆ</option>
+            </select>
+          </div>
+        </div>
 
         <label>รายละเอียดสั้น ๆ</label>
         <textarea id="description" required placeholder="อธิบายเกมสั้น ๆ"></textarea>
 
-        <label>หมวดหมู่</label>
-        <select id="category">
-          <option>สิ่งแวดล้อม</option>
-          <option>คณิตศาสตร์</option>
-          <option>ภาษาไทย</option>
-          <option>ภาษาอังกฤษ</option>
-          <option>วิทยาศาสตร์</option>
-          <option>คอมพิวเตอร์</option>
-          <option>AI</option>
-          <option>AR</option>
-          <option>อื่น ๆ</option>
-        </select>
+        <label>รูปปกเกม</label>
+        <input id="coverFile" type="file" accept="image/*">
+        <input id="image" placeholder="หรือวางลิงก์รูปภาพ เช่น https://...">
+        <p class="note">ถ้าเลือกไฟล์รูป ระบบจะอัปโหลดและใส่ลิงก์ให้เอง</p>
 
-        <label>ลิงก์รูปภาพ</label>
-        <input id="image" placeholder="เช่น https://... หรือ images/cover.png">
+        <div class="upload-box" id="dropZone">
+          <h3>📁 อัปโหลดไฟล์เกม</h3>
+          <p>เลือกอย่างใดอย่างหนึ่งด้านล่าง หรือจะลากไฟล์/โฟลเดอร์มาวางในกรอบนี้ก็ได้</p>
+
+          <label>แบบที่ 1: เกมไฟล์เดียว หรือหลายไฟล์</label>
+          <input id="gameFiles" type="file" multiple accept=".html,.htm,.css,.js,.json,.png,.jpg,.jpeg,.webp,.gif,.svg,.mp3,.wav,.ogg,.mp4,.webm,.ttf,.woff,.woff2">
+          <p class="note">เหมาะกับเกมที่มีแค่ <b>index.html</b> หรือมีรูป/เสียงเพิ่มเล็กน้อย</p>
+
+          <label>แบบที่ 2: เลือกทั้งโฟลเดอร์เกม</label>
+          <input id="gameFolder" type="file" webkitdirectory directory multiple>
+          <p class="note">เหมาะที่สุดสำหรับเกมที่มีโฟลเดอร์ images / audio / css / js</p>
+
+          <label>แบบที่ 3: ไฟล์ ZIP</label>
+          <input id="gameZip" type="file" accept=".zip,application/zip,application/x-zip-compressed">
+          <p class="note">ใน ZIP ควรมีไฟล์ <b>index.html</b> อยู่ด้านใน</p>
+        </div>
 
         <label>ลิงก์เกม</label>
-        <input id="link" placeholder="เช่น games/ar-sudoku/ หรือ #">
+        <input id="link" placeholder="ระบบจะสร้างลิงก์ให้อัตโนมัติ หรือวางลิงก์เองก็ได้">
 
         <label>สถานะ</label>
         <select id="status">
@@ -57,13 +84,19 @@
           <option value="hidden">ซ่อน</option>
         </select>
 
+        <div id="fileCheck" class="check-box hidden"></div>
+        <div id="uploadStatus" class="upload-status"></div>
+
         <div class="row">
-          <button type="submit">💾 บันทึกเกม</button>
+          <button id="saveBtn" type="submit">💾 บันทึกเกม</button>
           <button type="button" class="warn" onclick="resetForm()">ล้างฟอร์ม</button>
         </div>
       </form>
 
-      <h2>รายการเกม</h2>
+      <div class="list-head">
+        <h2>รายการเกม</h2>
+        <button type="button" class="ghost" onclick="loadGames()">🔄 โหลดใหม่</button>
+      </div>
       <div id="list" class="list"></div>
     </section>
   </main>

@@ -22,6 +22,9 @@ const APP_CONFIG = {
   ADMIN_PASSWORD,
   firebaseConfig,
   COLLECTION_GAMES: "games",
+  STORAGE_COVERS_PATH: "covers",
+  STORAGE_GAME_FILES_PATH: "game-files",
+  STORAGE_ZIPS_PATH: "game-zips",
   DEFAULT_IMAGE: "https://via.placeholder.com/400x300",
   STATUS_LABELS: {
     open: "เปิดเล่น",
@@ -50,12 +53,14 @@ function loadFirebaseScript(src) {
 window.firebaseReady = (async () => {
   await loadFirebaseScript("https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js");
   await loadFirebaseScript("https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js");
+  await loadFirebaseScript("https://www.gstatic.com/firebasejs/10.12.5/firebase-storage-compat.js");
 
   if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
   }
 
   window.db = firebase.firestore();
+  window.storage = firebase.storage();
   window.gamesRef = window.db.collection(APP_CONFIG.COLLECTION_GAMES);
-  return { firebase, db: window.db, gamesRef: window.gamesRef };
+  return { firebase, db: window.db, storage: window.storage, gamesRef: window.gamesRef };
 })();
