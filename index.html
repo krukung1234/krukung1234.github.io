@@ -1,15 +1,28 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>ครูกุ้งสอนไอที | รวมเกมการศึกษา AI</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <nav class="topbar"><div class="brand">🎮 <div><b>ครูกุ้งสอนไอที</b><small>รวมเกมการศึกษา AI</small></div></div><a href="admin.html">Admin</a></nav>
-  <header class="hero"><h1>รวมเกมการศึกษา AI</h1><p>เลือกเกมที่ต้องการแล้วกดเล่นได้เลย</p><div class="search"><input id="searchInput" placeholder="ค้นหาเกม เช่น ขยะ, Math, AI..."></div><div id="chips" class="chips"></div></header>
-  <main><div class="count" id="countText">0 เกม</div><section id="games" class="games"></section><p id="empty" class="empty hidden">ไม่พบเกม</p></main>
-  <script src="js/config.js"></script><script src="js/app.js"></script>
+  <nav class="topbar">
+    <div class="brand">🎮 <div><b>ครูกุ้งสอนไอที</b><small>รวมเกมการศึกษา AI</small></div></div>
+    <a class="admin" href="admin.html">Admin</a>
+  </nav>
+  <header class="hero">
+    <h1>รวมเกมการศึกษา AI</h1>
+    <p>เลือกเกมแล้วกดเล่นได้เลย</p>
+    <input id="searchInput" placeholder="ค้นหาเกม เช่น ขยะ, Math, AI...">
+    <div id="chips" class="chips"></div>
+  </header>
+  <main>
+    <b id="countText">0 เกม</b>
+    <div id="games" class="grid"></div>
+    <p id="empty" class="hidden">ยังไม่มีเกม</p>
+  </main>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>

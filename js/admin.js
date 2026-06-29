@@ -1,1 +1,56 @@
-const $=id=>document.getElementById(id);let games=[];function safe(t=''){return String(t).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;')}function folderToLink(f){f=String(f||'').trim().replace(/^\/+|\/+$/g,'');return f?`games/${f}/index.html`:''}function login(){if($('password').value===APP_CONFIG.ADMIN_PASSWORD){localStorage.setItem('admin_ok','1');showAdmin()}else alert('รหัสไม่ถูกต้อง')}function logout(){localStorage.removeItem('admin_ok');location.reload()}async function showAdmin(){$('loginBox').classList.add('hidden');$('adminBox').classList.remove('hidden');await loadGames()}if(localStorage.getItem('admin_ok')==='1')showAdmin();$('password')?.addEventListener('keydown',e=>{if(e.key==='Enter')login()});$('folder')?.addEventListener('input',()=>{$('linkPreview').value=folderToLink($('folder').value)});async function loadGames(){try{await firebaseReady;const s=await gamesRef.orderBy('createdAt','desc').get();games=s.docs.map(d=>({id:d.id,...d.data()}));}catch(e){console.error(e);alert('โหลดข้อมูลไม่ได้ กรุณาตรวจ Firestore Rules');games=[]}renderStats();renderList()}function renderStats(){$('totalGames').textContent=games.length;$('openGames').textContent=games.filter(g=>g.status==='open').length;$('soonGames').textContent=games.filter(g=>g.status==='soon').length}function renderList(){const key=($('searchAdmin')?.value||'').toLowerCase();let data=games.filter(g=>(g.title||'').toLowerCase().includes(key)||(g.category||'').toLowerCase().includes(key)||(g.folder||'').toLowerCase().includes(key));$('list').innerHTML=data.length?data.map(g=>`<div class="item"><img src="${safe(g.image||APP_CONFIG.DEFAULT_IMAGE)}" onerror="this.style.display='none'"><div class="info"><b>${safe(g.title)}</b><small>${safe(g.category)} | ${safe(g.status)} | ${safe(g.folder||'')}</small><span>${safe(g.description||'')}</span></div><div class="btns"><a class="mini" target="_blank" href="${safe(g.link||folderToLink(g.folder))}">ดู</a><button onclick="copyLink('${safe(g.link||folderToLink(g.folder))}')">คัดลอก</button><button onclick='editGame(${JSON.stringify(g).replaceAll("'","&apos;")})'>แก้ไข</button><button class="danger" onclick="deleteGame('${g.id}')">ลบ</button></div></div>`).join(''):'<p>ยังไม่มีเกม</p>'}form= $('gameForm');form.addEventListener('submit',async e=>{e.preventDefault();const id=$('id').value;const now=firebase.firestore.FieldValue.serverTimestamp();const folder=$('folder').value.trim();const data={title:$('title').value.trim(),category:$('category').value,description:$('description').value.trim(),image:$('image').value.trim()||APP_CONFIG.DEFAULT_IMAGE,folder,link:folderToLink(folder),gameUrl:folderToLink(folder),status:$('status').value,updatedAt:now};if(!data.title)return alert('กรุณากรอกชื่อเกม');if(!folder)return alert('กรุณากรอกชื่อโฟลเดอร์เกม');try{await firebaseReady;if(id)await gamesRef.doc(id).update(data);else await gamesRef.add({...data,createdAt:now});alert('บันทึกสำเร็จ');resetForm();await loadGames()}catch(err){console.error(err);alert('บันทึกไม่สำเร็จ กรุณาตรวจ Firestore Rules')}});function editGame(g){$('formTitle').textContent='✏️ แก้ไขเกม';$('id').value=g.id||'';$('title').value=g.title||'';$('category').value=g.category||'อื่น ๆ';$('description').value=g.description||'';$('image').value=g.image||'';$('folder').value=g.folder||((g.link||'').split('/')[1]||'');$('status').value=g.status||'open';$('linkPreview').value=folderToLink($('folder').value);scrollTo({top:0,behavior:'smooth'})}async function deleteGame(id){if(!confirm('ลบเกมนี้ใช่ไหม?'))return;try{await firebaseReady;await gamesRef.doc(id).delete();await loadGames()}catch(e){console.error(e);alert('ลบไม่สำเร็จ')}}function resetForm(){form.reset();$('id').value='';$('formTitle').textContent='➕ เพิ่มเกมใหม่';$('linkPreview').value=''}function copyLink(link){navigator.clipboard?.writeText(location.origin+'/'+link);alert('คัดลอกลิงก์แล้ว')} $('searchAdmin')?.addEventListener('input',renderList);window.login=login;window.logout=logout;window.editGame=editGame;window.deleteGame=deleteGame;window.resetForm=resetForm;window.copyLink=copyLink;
+const loginBox=document.getElementById('loginBox'), adminBox=document.getElementById('adminBox'), pass=document.getElementById('password'), form=document.getElementById('gameForm'), list=document.getElementById('list'), picker=document.getElementById('folderPicker');
+let games=[];
+function $(id){return document.getElementById(id)}
+function val(id){return $(id).value.trim()}
+function esc(t=""){return String(t).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
+function cleanFolder(f=""){return String(f).trim().replace(/\\/g,"/").replace(/^\/+|\/+$/g,"").split("/").filter(Boolean).pop()||""}
+function makeLink(folder){folder=cleanFolder(folder); return folder?`games/${folder}/index.html`:""}
+function updatePreview(){ $('linkPreview').value=makeLink(val('folder')); }
+function login(){ if(pass.value===window.APP_CONFIG.ADMIN_PASSWORD){localStorage.setItem('admin_ok','1');showAdmin()}else alert('รหัสไม่ถูกต้อง'); }
+function logout(){localStorage.removeItem('admin_ok');location.reload();}
+pass?.addEventListener('keydown',e=>{if(e.key==='Enter')login()});
+if(localStorage.getItem('admin_ok')==='1') showAdmin();
+async function showAdmin(){loginBox.classList.add('hidden');adminBox.classList.remove('hidden'); await loadGames();}
+async function loadGames(){
+  list.innerHTML='<p>กำลังโหลด...</p>';
+  try{ await window.firebaseReady; const snap=await window.gamesRef.orderBy('createdAt','desc').get(); games=snap.docs.map(d=>({id:d.id,...d.data()})); }
+  catch(e){ console.error(e); alert('โหลดข้อมูลไม่สำเร็จ ตรวจสอบ Firestore Rules'); games=[]; }
+  renderStats(); renderList();
+}
+function renderStats(){ $('totalCount').textContent=games.length; $('openCount').textContent=games.filter(g=>g.status==='open').length; $('soonCount').textContent=games.filter(g=>g.status==='soon').length; }
+function renderList(){
+  const key=($('adminSearch')?.value||'').toLowerCase().trim();
+  const data=games.filter(g=>(g.title||'').toLowerCase().includes(key)||(g.folder||'').toLowerCase().includes(key));
+  if(!data.length){list.innerHTML='<p>ยังไม่มีเกม</p>';return;}
+  list.innerHTML=data.map(g=>{const link=g.link||makeLink(g.folder); return `<div class="item"><img src="${esc(g.image||'')}" onerror="this.style.display='none'"><div><b>${esc(g.title||'ไม่มีชื่อเกม')}</b><small>${esc(g.category||'')} | ${esc(g.folder||'')}<br>${esc(link)}</small></div><div class="btns"><button onclick="openGame('${esc(link)}')">ดู</button><button onclick="copyLink('${esc(link)}')">คัดลอก</button><button class="edit" onclick='editGame(${JSON.stringify(g).replaceAll("'","&apos;")})'>แก้ไข</button><button class="danger" onclick="deleteGame('${g.id}')">ลบ</button></div></div>`}).join('');
+}
+$('adminSearch')?.addEventListener('input',renderList);
+$('folder')?.addEventListener('input',updatePreview);
+function pickFolder(){ picker.click(); }
+picker?.addEventListener('change',()=>{
+  const files=[...picker.files];
+  if(!files.length)return;
+  const first=files[0].webkitRelativePath || files[0].name;
+  const folder=first.split('/')[0];
+  $('folder').value=cleanFolder(folder);
+  updatePreview();
+  const hasIndex=files.some(f=>f.name.toLowerCase()==='index.html');
+  $('folderHint').textContent = hasIndex ? `✅ พบ index.html ในโฟลเดอร์ ${folder}` : `⚠️ ไม่พบ index.html กรุณาตรวจสอบก่อน Push`;
+});
+function previewCurrent(){ const link=makeLink(val('folder')); if(!link)return alert('กรุณาใส่ชื่อโฟลเดอร์เกม'); window.open(`game-player.html?url=${encodeURIComponent(link)}`,'_blank'); }
+form.addEventListener('submit',async e=>{
+  e.preventDefault();
+  const folder=cleanFolder(val('folder'));
+  if(!val('title'))return alert('กรุณากรอกชื่อเกม');
+  if(!folder)return alert('กรุณาใส่ชื่อโฟลเดอร์เกม เช่น ar-sudoku');
+  const now=firebase.firestore.FieldValue.serverTimestamp();
+  const data={title:val('title'),description:val('description'),category:val('category'),image:val('image'),folder,link:makeLink(folder),gameUrl:makeLink(folder),status:val('status')||'open',updatedAt:now};
+  try{await window.firebaseReady; const id=val('id'); if(id) await window.gamesRef.doc(id).update(data); else await window.gamesRef.add({...data,createdAt:now}); alert('บันทึกสำเร็จ'); resetForm(); await loadGames();}
+  catch(err){console.error(err); alert('บันทึกไม่สำเร็จ ตรวจสอบ Firestore Rules');}
+});
+function editGame(g){$('id').value=g.id||'';$('title').value=g.title||'';$('description').value=g.description||'';$('category').value=g.category||'อื่น ๆ';$('image').value=g.image||'';$('folder').value=g.folder||'';$('status').value=g.status||'open';updatePreview();scrollTo(0,0)}
+async function deleteGame(id){ if(!confirm('ลบเกมนี้ออกจากรายการใช่ไหม?\nหมายเหตุ: ต้องลบโฟลเดอร์เกมใน games ด้วย GitHub Desktop เอง'))return; try{await window.firebaseReady; await window.gamesRef.doc(id).delete(); await loadGames();}catch(e){alert('ลบไม่สำเร็จ')}}
+function resetForm(){form.reset();$('id').value='';$('folderHint').textContent='เลือกโฟลเดอร์ที่มี index.html ระบบจะกรอกชื่อโฟลเดอร์ให้เอง';updatePreview();}
+function openGame(link){window.open(`game-player.html?url=${encodeURIComponent(link)}`,'_blank')}
+async function copyLink(link){const full=new URL(link,location.href).href; await navigator.clipboard.writeText(full); alert('คัดลอกลิงก์แล้ว');}
+window.login=login;window.logout=logout;window.pickFolder=pickFolder;window.previewCurrent=previewCurrent;window.resetForm=resetForm;window.editGame=editGame;window.deleteGame=deleteGame;window.openGame=openGame;window.copyLink=copyLink;
