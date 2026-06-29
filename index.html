@@ -1,31 +1,37 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ครูกุ้งสอนไอที | รวมเกมการศึกษา AI</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ครูกุ้งสอนไอที | Game Hub</title>
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <nav class="topbar">
-    <div class="brand">🎮 <div><b>ครูกุ้งสอนไอที</b><small>รวมเกมการศึกษา AI</small></div></div>
-    <div class="navlinks"><a href="#games">เกมทั้งหมด</a><a href="admin.html">Admin</a></div>
-  </nav>
-
   <header class="hero">
-    <img src="cover.png" alt="ครูกุ้งสอนไอที" onerror="this.style.display='none'">
-    <div class="search"><input id="searchInput" placeholder="ค้นหาเกม เช่น ขยะ, Math, AI..."><button>🔍</button></div>
-    <div id="chips" class="chips"></div>
+    <nav class="topbar">
+      <div class="brand">🎮 <span>ครูกุ้งสอนไอที</span></div>
+      <a class="admin-link" href="admin.html">Admin</a>
+    </nav>
+    <div class="hero-card">
+      <h1>รวมเกมการศึกษา AI</h1>
+      <p>เลือกเกมที่ชอบ แล้วกดเล่นได้เลย</p>
+      <div class="searchbox">
+        <input id="searchInput" placeholder="ค้นหาเกม เช่น ขยะ, Math, AR, AI..." />
+      </div>
+      <div id="chips" class="chips"></div>
+    </div>
   </header>
 
   <main class="wrap">
-    <div class="title"><h2>🔥 เกมแนะนำ</h2><span id="countText">กำลังโหลด...</span></div>
+    <div class="section-head">
+      <h2>เกมทั้งหมด</h2>
+      <span id="countText">0 เกม</span>
+    </div>
+    <div id="empty" class="empty hidden">ยังไม่พบเกม</div>
     <section id="games" class="grid"></section>
-    <div id="empty" class="empty hidden">ยังไม่มีเกม หรือไม่พบผลการค้นหา</div>
   </main>
 
-  <footer>© ครูกุ้งสอนไอที | เล่นง่าย ได้ความรู้ พัฒนาทักษะ 💖</footer>
-  <script src="config.js"></script>
-  <script src="app.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>
