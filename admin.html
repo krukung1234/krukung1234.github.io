@@ -4,98 +4,102 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin | Krukung Game Hub</title>
-  <link rel="stylesheet" href="css/admin.css">
+  <style>:root{--blue:#2563eb;--green:#10b981;--red:#ef4444;--amber:#f59e0b;--slate:#64748b;--bg:#f5f7fb;--line:#e5e7eb;--text:#111827}*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:linear-gradient(135deg,#eef2ff,#fdf2f8);color:var(--text)}.panel{max-width:980px;margin:24px auto;padding:16px}.card{background:#fff;border-radius:24px;padding:24px;box-shadow:0 18px 50px #00000012}.login-card{max-width:520px;margin:8vh auto}.hidden{display:none!important}.head,.row,.item,.list-head{display:flex;gap:12px;align-items:center}.head,.list-head{justify-content:space-between}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}label{display:block;margin-top:14px;font-weight:800}input,textarea,select,button{font:inherit;border-radius:14px;border:1px solid #d1d5db;padding:12px}input,textarea,select{width:100%;margin-top:6px;background:#fff}textarea{min-height:92px}button{cursor:pointer;background:var(--blue);color:white;border:0;font-weight:800;white-space:nowrap}.ghost{background:var(--slate)}.warn{background:var(--amber)}.danger{background:var(--red)}.edit{background:var(--green)}.copy{background:#7c3aed}.preview{background:#0891b2}.note{color:var(--slate);font-size:14px;margin:8px 0}.upload-box{margin-top:18px;border:2px dashed #93c5fd;background:#eff6ff;border-radius:20px;padding:18px}.upload-box.dragover{background:#dbeafe;border-color:#2563eb}.check-box{border:1px solid #bbf7d0;background:#f0fdf4;border-radius:16px;padding:12px;margin-top:16px;color:#166534}.check-box.bad{border-color:#fecaca;background:#fef2f2;color:#991b1b}.upload-status{margin-top:14px;font-weight:800;color:#2563eb}.list{display:grid;gap:12px}.item{justify-content:space-between;border:1px solid var(--line);border-radius:18px;padding:12px;background:#fff}.item img{width:92px;height:64px;object-fit:cover;border-radius:14px;background:#f3f4f6}.item .meta{flex:1;min-width:0}.item b{display:block}.item small{display:block;color:var(--slate);margin-top:4px}.item .actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.item a{color:#2563eb}.row{margin-top:18px;flex-wrap:wrap}button:disabled{opacity:.6;cursor:not-allowed}.progress{height:10px;background:#e5e7eb;border-radius:999px;overflow:hidden;margin-top:8px}.bar{height:100%;background:#2563eb;width:0%;transition:.2s}@media(max-width:720px){.grid2{grid-template-columns:1fr}.head,.item,.list-head{align-items:stretch;flex-direction:column}.item img{width:100%;height:160px}.item .actions{justify-content:flex-start}button{width:100%}}
+
+.brand-hero{background:linear-gradient(135deg,#6d5dfc,#22c55e);color:#fff;border-radius:28px;padding:26px;margin-bottom:18px;box-shadow:0 18px 48px #6d5dfc33}.brand-hero h1{margin:0;font-size:clamp(28px,4vw,42px)}.brand-hero p{margin:8px 0 0;opacity:.95;font-size:18px}.step-box{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}.step{background:#fff;border:1px solid #e5e7eb;border-radius:18px;padding:14px}.step b{font-size:18px}.section-title{display:flex;align-items:center;gap:10px;font-size:22px;margin-top:24px}.big-upload{border:3px dashed #60a5fa;background:linear-gradient(180deg,#eff6ff,#fff);text-align:center;padding:24px}.big-upload h3{font-size:26px;margin:0 0 6px}.input-help{font-size:13px;color:#64748b;margin-top:6px}.list-head{margin-top:22px}.form-card{border:1px solid #e5e7eb;background:#ffffff;border-radius:22px;padding:18px;margin-top:16px}.primary-action{font-size:18px;padding:14px 24px}.top-actions{display:flex;gap:10px;flex-wrap:wrap}.admin-layout{display:grid;grid-template-columns:1fr;gap:18px}.quick-note{background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;border-radius:18px;padding:14px;margin:12px 0}@media(max-width:820px){.step-box{grid-template-columns:1fr}.panel{padding:10px}.card{padding:16px;border-radius:20px}}
+</style>
 </head>
 <body>
   <main class="panel">
+    <div class="brand-hero">
+      <h1>🎮 Krukung Game Hub Admin</h1>
+      <p>เพิ่มเกมง่าย ๆ: ใส่ชื่อเกม → เลือกไฟล์/โฟลเดอร์เกม → กดบันทึก</p>
+    </div>
+
     <section id="loginBox" class="card login-card">
-      <h1>🔐 Admin เพิ่มเกม</h1>
+      <h1>🔐 เข้าสู่ระบบแอดมิน</h1>
       <label>รหัส Admin</label>
-      <input id="password" type="password" placeholder="ใส่รหัส">
-      <button onclick="login()">เข้าสู่ระบบ</button>
+      <input id="password" type="password" placeholder="ใส่รหัส เช่น vip69">
+      <button class="primary-action" onclick="login()">เข้าสู่ระบบ</button>
       <p class="note">รหัสเริ่มต้น: <b>vip69</b> เปลี่ยนได้ที่ไฟล์ <b>js/config.js</b> ตรง ADMIN_PASSWORD</p>
     </section>
 
     <section id="adminBox" class="card hidden">
       <div class="head">
         <div>
-          <h1>🎮 จัดการเกม</h1>
-          <p class="note">เพิ่มเกมได้ 3 แบบ: ไฟล์เดียว, ลากโฟลเดอร์เกม, หรืออัปโหลด ZIP</p>
+          <h1>➕ เพิ่ม / แก้ไขเกม</h1>
+          <p class="note">เหมาะกับเกมที่มีแค่ index.html หรือมีรูปภาพประกอบหลายไฟล์</p>
         </div>
-        <button class="ghost" onclick="logout()">ออกจากระบบ</button>
+        <div class="top-actions">
+          <button type="button" class="ghost" onclick="loadGames()">🔄 โหลดใหม่</button>
+          <button class="ghost" onclick="logout()">ออกจากระบบ</button>
+        </div>
       </div>
 
-      <form id="gameForm">
+      <div class="step-box">
+        <div class="step"><b>1️⃣ กรอกข้อมูล</b><br><span class="note">ชื่อเกม หมวดหมู่ คำอธิบาย</span></div>
+        <div class="step"><b>2️⃣ เลือกไฟล์เกม</b><br><span class="note">ไฟล์เดียว / หลายไฟล์ / โฟลเดอร์ / ZIP</span></div>
+        <div class="step"><b>3️⃣ กดบันทึก</b><br><span class="note">ระบบสร้างลิงก์ให้อัตโนมัติ</span></div>
+      </div>
+
+      <form id="gameForm" class="form-card">
         <input type="hidden" id="id">
 
+        <div class="section-title">📝 ข้อมูลเกม</div>
         <div class="grid2">
           <div>
             <label>ชื่อเกม</label>
-            <input id="title" required placeholder="เช่น AR Sudoku">
+            <input id="title" required placeholder="เช่น ภารกิจคัดแยกขยะ">
           </div>
           <div>
             <label>หมวดหมู่</label>
             <select id="category">
-              <option>สิ่งแวดล้อม</option>
-              <option>คณิตศาสตร์</option>
-              <option>ภาษาไทย</option>
-              <option>ภาษาอังกฤษ</option>
-              <option>วิทยาศาสตร์</option>
-              <option>คอมพิวเตอร์</option>
-              <option>AI</option>
-              <option>AR</option>
-              <option>อื่น ๆ</option>
+              <option>สิ่งแวดล้อม</option><option>คณิตศาสตร์</option><option>ภาษาไทย</option><option>ภาษาอังกฤษ</option><option>วิทยาศาสตร์</option><option>คอมพิวเตอร์</option><option>AI</option><option>AR</option><option>อื่น ๆ</option>
             </select>
           </div>
         </div>
 
         <label>รายละเอียดสั้น ๆ</label>
-        <textarea id="description" required placeholder="อธิบายเกมสั้น ๆ"></textarea>
+        <textarea id="description" required placeholder="เช่น ใช้กล้องและมือ ลากขยะลงถังให้ถูกต้อง"></textarea>
 
-        <label>รูปปกเกม</label>
+        <div class="section-title">🖼 รูปปกเกม</div>
         <input id="coverFile" type="file" accept="image/*">
+        <div class="input-help">เลือกไฟล์รูปจากคอมได้เลย หรือวางลิงก์รูปในช่องด้านล่าง</div>
         <input id="image" placeholder="หรือวางลิงก์รูปภาพ เช่น https://...">
-        <p class="note">ถ้าเลือกไฟล์รูป ระบบจะอัปโหลดและใส่ลิงก์ให้เอง</p>
 
-        <div class="upload-box" id="dropZone">
-          <h3>📁 อัปโหลดไฟล์เกม</h3>
-          <p>เลือกอย่างใดอย่างหนึ่งด้านล่าง หรือจะลากไฟล์/โฟลเดอร์มาวางในกรอบนี้ก็ได้</p>
+        <div class="section-title">📁 ไฟล์เกม</div>
+        <div class="quick-note">แนะนำที่สุด: ถ้าเกมมีแค่ <b>index.html</b> ให้เลือกที่ “ไฟล์เดียว/หลายไฟล์” ได้เลย ถ้ามีรูปหลายรูปให้เลือกทั้งโฟลเดอร์เกม</div>
+        <div class="upload-box big-upload" id="dropZone">
+          <h3>ลากไฟล์หรือโฟลเดอร์เกมมาวางตรงนี้</h3>
+          <p class="note">หรือเลือกจากปุ่มด้านล่าง</p>
 
-          <label>แบบที่ 1: เกมไฟล์เดียว หรือหลายไฟล์</label>
+          <label>แบบง่าย: เลือก index.html หรือเลือกหลายไฟล์พร้อมรูป</label>
           <input id="gameFiles" type="file" multiple accept=".html,.htm,.css,.js,.json,.png,.jpg,.jpeg,.webp,.gif,.svg,.mp3,.wav,.ogg,.mp4,.webm,.ttf,.woff,.woff2">
-          <p class="note">เหมาะกับเกมที่มีแค่ <b>index.html</b> หรือมีรูป/เสียงเพิ่มเล็กน้อย</p>
 
-          <label>แบบที่ 2: เลือกทั้งโฟลเดอร์เกม</label>
+          <label>แบบสะดวกสุด: เลือกทั้งโฟลเดอร์เกม</label>
           <input id="gameFolder" type="file" webkitdirectory directory multiple>
-          <p class="note">เหมาะที่สุดสำหรับเกมที่มีโฟลเดอร์ images / audio / css / js</p>
 
-          <label>แบบที่ 3: ไฟล์ ZIP</label>
+          <label>แบบ ZIP: เลือกไฟล์ .zip</label>
           <input id="gameZip" type="file" accept=".zip,application/zip,application/x-zip-compressed">
-          <p class="note">ใน ZIP ควรมีไฟล์ <b>index.html</b> อยู่ด้านใน</p>
         </div>
 
         <label>ลิงก์เกม</label>
-        <input id="link" placeholder="ระบบจะสร้างลิงก์ให้อัตโนมัติ หรือวางลิงก์เองก็ได้">
+        <input id="link" placeholder="ไม่ต้องกรอก ถ้าอัปโหลดไฟล์เกม ระบบจะสร้างให้อัตโนมัติ">
 
         <label>สถานะ</label>
-        <select id="status">
-          <option value="open">เปิดเล่น</option>
-          <option value="soon">เร็ว ๆ นี้</option>
-          <option value="hidden">ซ่อน</option>
-        </select>
+        <select id="status"><option value="open">เปิดเล่น</option><option value="soon">เร็ว ๆ นี้</option><option value="hidden">ซ่อน</option></select>
 
         <div id="fileCheck" class="check-box hidden"></div>
         <div id="uploadStatus" class="upload-status"></div>
 
         <div class="row">
-          <button id="saveBtn" type="submit">💾 บันทึกเกม</button>
+          <button id="saveBtn" class="primary-action" type="submit">💾 บันทึกเกม</button>
           <button type="button" class="warn" onclick="resetForm()">ล้างฟอร์ม</button>
         </div>
       </form>
 
       <div class="list-head">
-        <h2>รายการเกม</h2>
-        <button type="button" class="ghost" onclick="loadGames()">🔄 โหลดใหม่</button>
+        <h2>📚 รายการเกม</h2>
       </div>
       <div id="list" class="list"></div>
     </section>
