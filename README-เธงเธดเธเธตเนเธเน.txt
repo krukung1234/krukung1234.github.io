@@ -1,18 +1,17 @@
-Krukung Game Hub V7 - แบบโฟลเดอร์เกม
+Krukung Game Hub V10 Beautiful UI
 
-วิธีเพิ่มเกมใหม่
-1) เปิดโฟลเดอร์โปรเจกต์ krukung1234.github.io ในเครื่อง
-2) เข้าโฟลเดอร์ games
-3) สร้างโฟลเดอร์เกม เช่น ar-sudoku
-4) วางไฟล์เกมทั้งหมดไว้ข้างใน โดยต้องมี index.html
-   ตัวอย่าง: games/ar-sudoku/index.html
-5) เปิด GitHub Desktop
-6) Commit และ Push
-7) เข้า admin.html
-8) กรอกชื่อเกม หมวดหมู่ รายละเอียด รูปปก และชื่อโฟลเดอร์ เช่น ar-sudoku
-9) กดบันทึก
+วิธีติดตั้ง
+1) แตก ZIP
+2) คัดลอกไฟล์ทั้งหมดในโฟลเดอร์ krukung_v10 ไปวางทับในโฟลเดอร์ krukung1234.github.io
+3) เปิด GitHub Desktop
+4) Commit
+5) Push origin
+6) เปิด https://krukung1234.github.io/?v=10 และ https://krukung1234.github.io/admin.html?v=10
 
-หมายเหตุ
-- ไม่ต้องใช้ Firebase Storage
-- Admin ใช้ Firestore เฉพาะเก็บข้อมูลรายชื่อเกม
-- รูปปกใส่เป็นลิงก์ได้ หรือวางรูปไว้ใน images แล้วใส่ images/ชื่อรูป.png
+วิธีเพิ่มเกม
+1) นำโฟลเดอร์เกมไปใส่ใน games เช่น games/ar-sudoku/index.html
+2) GitHub Desktop > Commit > Push
+3) เข้า Admin > กรอกชื่อเกม หมวด รายละเอียด รูปปก และชื่อโฟลเดอร์ ar-sudoku
+4) กดบันทึก
+
+รูปปกใส่ได้ เช่น images/ar-sudoku.png หรือ games/ar-sudoku/cover.png หรือ URL รูปภาพ

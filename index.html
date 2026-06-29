@@ -1,27 +1,55 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>ครูกุ้งสอนไอที | ศูนย์รวมเกมการศึกษา AI</title>
-  <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ครูกุ้งสอนไอที | รวมเกมการศึกษา AI</title>
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <nav class="topbar">
-    <div class="brand">🎮 <div><b>ครูกุ้งสอนไอที</b><small>ศูนย์รวมเกมการศึกษา AI</small></div></div>
-    <a class="admin" href="admin.html">Admin</a>
+  <nav class="navbar">
+    <a class="brand" href="index.html">
+      <span class="brand-icon">🎮</span>
+      <span><b>ครูกุ้งสอนไอที</b><small>รวมเกมการศึกษา AI</small></span>
+    </a>
+    <div class="navlinks">
+      <a href="#home">หน้าแรก</a>
+      <a href="#games-section">เกมทั้งหมด</a>
+      <a href="#categories">หมวดหมู่</a>
+      <a href="#about">เกี่ยวกับเรา</a>
+      <a class="admin-pill" href="admin.html">Admin</a>
+    </div>
   </nav>
-  <header class="hero">
-    <h1>ศูนย์รวมเกมการศึกษา AI</h1>
-    <p>เลือกเกมสนุก ๆ แล้วกดเล่นได้เลย</p>
-    <input id="searchInput" placeholder="ค้นหาเกม เช่น ขยะ, Math, AI...">
-    <div id="chips" class="chips"></div>
-  </header>
-  <main>
-    <b id="countText">0 เกม</b>
-    <div id="games" class="grid"></div>
-    <p id="empty" class="hidden">ยังไม่มีเกม</p>
+
+  <main id="home">
+    <section class="hero-card">
+      <img src="cover.png" alt="ครูกุ้งสอนไอที รวมเกมการศึกษา AI" onerror="this.style.display='none';document.querySelector('.hero-fallback').style.display='grid'">
+      <div class="hero-fallback">
+        <h1>ครูกุ้งสอนไอที</h1>
+        <p>รวมเกมการศึกษา AI เล่นง่าย ได้ความรู้ สนุกทุกเกม</p>
+      </div>
+    </section>
+
+    <section class="search-zone">
+      <div class="search-box">
+        <input id="searchInput" placeholder="ค้นหาเกม เช่น ขยะ, Math, English, AI..." />
+        <button>🔍</button>
+      </div>
+      <div id="chips" class="chips"></div>
+    </section>
+
+    <section id="games-section" class="content-section">
+      <div class="section-head">
+        <h2>🔥 เกมแนะนำ</h2>
+        <span id="countText">0 เกม</span>
+      </div>
+      <div id="games" class="games-grid"></div>
+      <p id="empty" class="empty hidden">ยังไม่มีเกมในหมวดนี้</p>
+    </section>
   </main>
+
+  <footer id="about" class="footer">© ครูกุ้งสอนไอที | Educational Game Hub</footer>
+
   <script src="js/config.js"></script>
   <script src="js/app.js"></script>
 </body>
