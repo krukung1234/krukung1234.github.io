@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin | Krukung Game Hub</title>
+  <title>Admin | Krukung Game Hub V13</title>
   <link rel="stylesheet" href="css/admin.css" />
 </head>
 <body>
@@ -28,8 +28,8 @@
           <input type="hidden" id="id" />
           <div class="grid2"><label>ชื่อเกม<input id="title" required placeholder="เช่น AR Sudoku" /></label><label>หมวดหมู่<select id="category"><option>สิ่งแวดล้อม</option><option>คณิตศาสตร์</option><option>ภาษาไทย</option><option>ภาษาอังกฤษ</option><option>วิทยาศาสตร์</option><option>คอมพิวเตอร์</option><option>AI</option><option>AR</option><option>ฝึกสมอง</option><option>อื่น ๆ</option></select></label></div>
           <label>รายละเอียดสั้น ๆ<textarea id="description" required placeholder="อธิบายเกมสั้น ๆ"></textarea></label>
-          <div class="grid2"><label>รูปปก / ลิงก์รูป<input id="image" placeholder="เช่น images/ar-sudoku.png หรือ https://..." /></label><label>ชื่อโฟลเดอร์เกม<input id="folder" required placeholder="เช่น ar-sudoku" /></label></div>
-          <p class="hint">ระบบจะสร้างลิงก์ให้อัตโนมัติ: <b id="previewLink">games/ชื่อโฟลเดอร์/index.html</b></p>
+          <div class="grid2"><label>รูปปก / ลิงก์รูป <small>(เว้นว่างได้ ถ้าในโฟลเดอร์มี cover.png)</small><input id="image" placeholder="เว้นว่างได้ หรือใส่ games/ar-sudoku/cover.png" /></label><label>ชื่อโฟลเดอร์เกม<input id="folder" required placeholder="เช่น ar-sudoku" /></label></div>
+          <p class="hint">ระบบจะสร้างลิงก์ให้อัตโนมัติ: <b id="previewLink">games/ชื่อโฟลเดอร์/index.html</b><br>รูปปกอัตโนมัติ: <b id="previewImage">games/ชื่อโฟลเดอร์/cover.png</b></p>
           <div class="grid2"><label>สถานะ<select id="status"><option value="open">เปิดเล่น</option><option value="soon">เร็ว ๆ นี้</option><option value="hidden">ซ่อน</option></select></label><label>ลิงก์เกมที่ระบบสร้างไว้<input id="link" readonly placeholder="สร้างอัตโนมัติ" /></label></div>
           <div class="actions"><button type="submit">💾 บันทึกเกม</button><button type="button" class="warn" onclick="resetForm()">ล้างฟอร์ม</button></div>
         </form>

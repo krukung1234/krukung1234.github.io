@@ -1,4 +1,4 @@
-// Krukung Game Hub V10
+// Krukung Game Hub V13 Full
 const ADMIN_PASSWORD = "vip69";
 
 const firebaseConfig = {

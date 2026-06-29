@@ -1,17 +1,32 @@
-Krukung Game Hub V10 Beautiful UI
+Krukung Game Hub V13 Full
 
-วิธีติดตั้ง
+วิธีลงไฟล์
 1) แตก ZIP
-2) คัดลอกไฟล์ทั้งหมดในโฟลเดอร์ krukung_v10 ไปวางทับในโฟลเดอร์ krukung1234.github.io
-3) เปิด GitHub Desktop
-4) Commit
-5) Push origin
-6) เปิด https://krukung1234.github.io/?v=10 และ https://krukung1234.github.io/admin.html?v=10
+2) เปิดโฟลเดอร์ krukung_v13_full
+3) คัดลอกไฟล์ทั้งหมดไปวางทับในโฟลเดอร์ krukung1234.github.io
+4) เปิด GitHub Desktop > Commit > Push origin
+5) เปิดเว็บด้วย ?v=13
 
-วิธีเพิ่มเกม
-1) นำโฟลเดอร์เกมไปใส่ใน games เช่น games/ar-sudoku/index.html
-2) GitHub Desktop > Commit > Push
-3) เข้า Admin > กรอกชื่อเกม หมวด รายละเอียด รูปปก และชื่อโฟลเดอร์ ar-sudoku
-4) กดบันทึก
+ลิงก์เว็บ
+หน้าเว็บหลัก: https://krukung1234.github.io/?v=13
+หน้า Admin: https://krukung1234.github.io/admin.html?v=13
 
-รูปปกใส่ได้ เช่น images/ar-sudoku.png หรือ games/ar-sudoku/cover.png หรือ URL รูปภาพ
+วิธีเพิ่มเกมแบบง่าย
+1) ในโฟลเดอร์ krukung1234.github.io ให้เข้าโฟลเดอร์ games
+2) สร้างโฟลเดอร์เกม เช่น ar-sudoku
+3) ใส่ไฟล์เกมไว้ในนั้น โดยต้องมี index.html
+4) ถ้ามีรูปปก ให้ตั้งชื่อ cover.png แล้วใส่ในโฟลเดอร์เกม
+ตัวอย่าง: games/ar-sudoku/index.html และ games/ar-sudoku/cover.png
+5) GitHub Desktop > Commit > Push origin
+6) เข้า Admin > กรอกชื่อเกม หมวด รายละเอียด และชื่อโฟลเดอร์ ar-sudoku
+7) ช่องรูปปกเว้นว่างได้ ระบบจะใช้ games/ar-sudoku/cover.png อัตโนมัติ
+
+Firestore Rules สำหรับทดสอบ
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /games/{docId} {
+      allow read, write: if true;
+    }
+  }
+}
