@@ -16,7 +16,7 @@
 <button type="submit">💾 บันทึกเกม</button><div id="status" class="status"></div>
 </form></main>
 <script>
-const API_URL = "PASTE_YOUR_APPS_SCRIPT_EXEC_URL_HERE"; // วางลิงก์ /exec ตรงนี้
+const API_URL = "https://script.google.com/macros/s/AKfycbzjV6IWOQJedG3ZnujlgQvij6puPIBYvCtvGnny05xwb6N7_acU3UPEx83CIik1uV0mQQ/exec"; // วางลิงก์ /exec ตรงนี้
 const form=document.getElementById('gameForm');const statusBox=document.getElementById('status');
 form.addEventListener('submit',async(e)=>{e.preventDefault();statusBox.className='status';statusBox.textContent='กำลังบันทึก...';try{if(!API_URL.includes('/exec')) throw new Error('ยังไม่ได้ใส่ API_URL');const fd=new FormData(form);const params=new URLSearchParams();for(const [k,v] of fd.entries()) params.append(k,v);const res=await fetch(API_URL,{method:'POST',body:params});const data=await res.json();if(data.success){statusBox.className='status ok';statusBox.textContent='✅ เพิ่มเกมสำเร็จ';form.reset();}else throw new Error(data.message||'บันทึกไม่สำเร็จ');}catch(err){statusBox.className='status err';statusBox.textContent='❌ '+err.message;}});
 </script></body></html>
