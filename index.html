@@ -7,23 +7,27 @@
 
 <style>
 *{box-sizing:border-box}
+
 body{
   margin:0;
-  font-family:"Prompt","Sarabun",sans-serif;
+  font-family:"Prompt","Sarabun",Arial,sans-serif;
   background:linear-gradient(180deg,#f7fbff,#fff4d8);
   color:#123456;
 }
+
 .container{
   width:min(1180px,94%);
   margin:auto;
 }
+
 nav{
   position:sticky;
   top:0;
   z-index:99;
-  background:rgba(255,255,255,.95);
+  background:rgba(255,255,255,.96);
   box-shadow:0 4px 18px rgba(0,0,0,.08);
 }
+
 .nav-inner{
   min-height:72px;
   display:flex;
@@ -31,6 +35,7 @@ nav{
   align-items:center;
   gap:15px;
 }
+
 .logo{
   display:flex;
   align-items:center;
@@ -39,31 +44,39 @@ nav{
   color:#1d4ed8;
   font-size:22px;
 }
+
 .logo span{font-size:38px}
+
 .menu{
   display:flex;
   gap:14px;
   font-weight:800;
 }
+
 .menu a{
   text-decoration:none;
   color:#17324d;
   padding:10px 14px;
   border-radius:999px;
 }
+
 .menu a:hover{
   background:#e8f3ff;
   color:#0b7fab;
 }
+
 .hero{
   padding:24px 0 10px;
 }
-.hero img{
+
+.hero-cover{
   width:100%;
+  height:auto;
   display:block;
-  border-radius:26px;
+  border-radius:24px;
   box-shadow:0 18px 40px rgba(0,0,0,.22);
 }
+
 .search{
   max-width:620px;
   margin:24px auto;
@@ -74,6 +87,7 @@ nav{
   box-shadow:0 8px 22px rgba(0,0,0,.12);
   border:3px solid white;
 }
+
 .search input{
   flex:1;
   border:0;
@@ -81,6 +95,7 @@ nav{
   padding:15px 22px;
   font-size:17px;
 }
+
 .search button{
   border:0;
   background:#1d8cf8;
@@ -88,6 +103,7 @@ nav{
   padding:0 24px;
   font-size:22px;
 }
+
 .chips{
   display:flex;
   justify-content:center;
@@ -95,6 +111,7 @@ nav{
   gap:12px;
   margin:16px 0 34px;
 }
+
 .chip{
   border:0;
   border-radius:999px;
@@ -105,27 +122,33 @@ nav{
   box-shadow:0 6px 14px rgba(0,0,0,.1);
   cursor:pointer;
 }
+
 .chip.active{background:#1d8cf8;color:white}
+
 .section-title{
   display:flex;
   align-items:center;
   justify-content:space-between;
   margin:30px 0 18px;
 }
+
 .section-title h2{
   margin:0;
   font-size:28px;
 }
+
 .section-title a{
   color:#1d8cf8;
   font-weight:900;
   text-decoration:none;
 }
+
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
   gap:24px;
 }
+
 .card{
   background:white;
   border-radius:24px;
@@ -134,30 +157,42 @@ nav{
   box-shadow:0 12px 26px rgba(0,0,0,.13);
   transition:.2s;
 }
+
 .card:hover{transform:translateY(-6px)}
+
 .thumb{
+  width:100%;
   height:165px;
   background:linear-gradient(135deg,#d9f6ff,#fff4c7);
   overflow:hidden;
-  display:grid;
-  place-items:center;
-  font-size:64px;
 }
+
 .thumb img{
   width:100%;
   height:100%;
   object-fit:cover;
   display:block;
 }
+
+.thumb-fallback{
+  height:165px;
+  display:grid;
+  place-items:center;
+  font-size:64px;
+  background:linear-gradient(135deg,#d9f6ff,#fff4c7);
+}
+
 .card-body{
   padding:18px;
   text-align:center;
 }
+
 .card h3{
   margin:0 0 8px;
   font-size:22px;
   color:#143b7a;
 }
+
 .card p{
   margin:0;
   min-height:48px;
@@ -165,6 +200,7 @@ nav{
   font-weight:600;
   color:#3c5570;
 }
+
 .tag{
   display:inline-block;
   margin:13px 0;
@@ -175,6 +211,7 @@ nav{
   font-weight:900;
   font-size:13px;
 }
+
 .play{
   display:inline-block;
   margin-top:4px;
@@ -186,9 +223,11 @@ nav{
   font-weight:900;
   box-shadow:0 5px 0 rgba(0,0,0,.18);
 }
+
 .soon{
   background:linear-gradient(135deg,#fb923c,#ef4444);
 }
+
 .features{
   margin:38px 0;
   display:grid;
@@ -200,26 +239,45 @@ nav{
   border-radius:24px;
   box-shadow:0 14px 32px rgba(0,0,0,.18);
 }
+
 .feature{
   display:flex;
   gap:12px;
   align-items:center;
   font-weight:900;
 }
+
 .feature span{font-size:40px}
+
 footer{
   background:#062347;
   color:white;
   text-align:center;
   padding:32px 0;
 }
+
 .hidden{display:none!important}
 
 @media(max-width:760px){
-  .nav-inner{flex-direction:column;padding:12px 0}
-  .menu{flex-wrap:wrap;justify-content:center;font-size:14px}
-  .hero img{border-radius:18px}
-  .thumb{height:140px}
+  .nav-inner{
+    flex-direction:column;
+    padding:12px 0;
+  }
+
+  .menu{
+    flex-wrap:wrap;
+    justify-content:center;
+    font-size:14px;
+  }
+
+  .hero-cover{
+    border-radius:18px;
+  }
+
+  .thumb,
+  .thumb-fallback{
+    height:140px;
+  }
 }
 </style>
 </head>
@@ -232,6 +290,7 @@ footer{
       <span>🎮</span>
       <div>ครูกุ้งสอนไอที<br><small>รวมเกมการศึกษา AI</small></div>
     </div>
+
     <div class="menu">
       <a href="#">หน้าแรก</a>
       <a href="#games">เกมทั้งหมด</a>
@@ -242,11 +301,11 @@ footer{
 </nav>
 
 <header class="hero container">
-  <img src="cover.png" alt="ครูกุ้งสอนไอที รวมเกมการศึกษา AI">
+  <img class="hero-cover" src="cover.png" alt="ครูกุ้งสอนไอที รวมเกมการศึกษา AI">
 
   <div class="search">
     <input id="searchInput" type="text" placeholder="ค้นหาเกม เช่น ขยะ, Math, English, AI...">
-    <button>🔍</button>
+    <button type="button">🔍</button>
   </div>
 
   <div class="chips" id="category">
@@ -269,7 +328,9 @@ footer{
   <section class="grid">
 
     <article class="card" data-category="สิ่งแวดล้อม" data-title="ภารกิจคัดแยกขยะ เกมขยะ สิ่งแวดล้อม">
-      <div class="thumb"><img src="garbage.png" alt="ภารกิจคัดแยกขยะ"></div>
+      <div class="thumb">
+        <img src="./garbage.png" alt="ภารกิจคัดแยกขยะ">
+      </div>
       <div class="card-body">
         <h3>ภารกิจคัดแยกขยะ</h3>
         <p>ใช้กล้องและมือ ลากขยะลงถังให้ถูกต้อง</p>
@@ -279,7 +340,9 @@ footer{
     </article>
 
     <article class="card" data-category="คณิตศาสตร์" data-title="AR Math สูตรคูณ คณิตศาสตร์">
-      <div class="thumb"><img src="math.png" alt="AR Math"></div>
+      <div class="thumb">
+        <img src="./math.png" alt="AR Math">
+      </div>
       <div class="card-body">
         <h3>AR Math</h3>
         <p>ภารกิจสูตรคูณ ป.4 - ป.6 ฝึกคิดเร็ว</p>
@@ -289,7 +352,7 @@ footer{
     </article>
 
     <article class="card" data-category="คณิตศาสตร์" data-title="AR Sudoku ซูโดกุ ฝึกสมอง">
-      <div class="thumb">🔢</div>
+      <div class="thumb-fallback">🔢</div>
       <div class="card-body">
         <h3>AR Sudoku</h3>
         <p>ฝึกสมอง เสริมการวิเคราะห์ แก้ปัญหาอย่างเป็นระบบ</p>
@@ -299,7 +362,7 @@ footer{
     </article>
 
     <article class="card" data-category="คอมพิวเตอร์" data-title="AR Cyber Quest คอมพิวเตอร์">
-      <div class="thumb">💻</div>
+      <div class="thumb-fallback">💻</div>
       <div class="card-body">
         <h3>AR Cyber Quest</h3>
         <p>เรียนรู้อุปกรณ์คอมพิวเตอร์และเทคโนโลยีรอบตัว</p>
@@ -309,7 +372,7 @@ footer{
     </article>
 
     <article class="card" data-category="ภาษา" data-title="English Game ภาษาอังกฤษ">
-      <div class="thumb">🔤</div>
+      <div class="thumb-fallback">🔤</div>
       <div class="card-body">
         <h3>English Game</h3>
         <p>เกมคำศัพท์ภาษาอังกฤษ เล่นง่าย สนุกเพลิน</p>
@@ -319,7 +382,7 @@ footer{
     </article>
 
     <article class="card" data-category="AI" data-title="AI Creator สื่อการสอน AI">
-      <div class="thumb">🤖</div>
+      <div class="thumb-fallback">🤖</div>
       <div class="card-body">
         <h3>AI Creator</h3>
         <p>สร้างสรรค์ผลงานและสื่อการเรียนรู้ด้วย AI</p>
@@ -347,26 +410,26 @@ footer{
 </footer>
 
 <script>
-const searchInput=document.getElementById("searchInput");
-const cards=document.querySelectorAll(".card");
-const chips=document.querySelectorAll(".chip");
+const searchInput = document.getElementById("searchInput");
+const cards = document.querySelectorAll(".card");
+const chips = document.querySelectorAll(".chip");
 
 function filterGames(){
-  const keyword=searchInput.value.toLowerCase().trim();
-  const active=document.querySelector(".chip.active");
-  const category=active?active.dataset.filter:"all";
+  const keyword = searchInput.value.toLowerCase().trim();
+  const active = document.querySelector(".chip.active");
+  const category = active ? active.dataset.filter : "all";
 
   cards.forEach(card=>{
-    const title=card.dataset.title.toLowerCase();
-    const text=card.innerText.toLowerCase();
-    const cardCategory=card.dataset.category;
-    const matchSearch=title.includes(keyword)||text.includes(keyword);
-    const matchCategory=category==="all"||cardCategory===category;
-    card.classList.toggle("hidden",!(matchSearch&&matchCategory));
+    const title = card.dataset.title.toLowerCase();
+    const text = card.innerText.toLowerCase();
+    const cardCategory = card.dataset.category;
+    const matchSearch = title.includes(keyword) || text.includes(keyword);
+    const matchCategory = category === "all" || cardCategory === category;
+    card.classList.toggle("hidden", !(matchSearch && matchCategory));
   });
 }
 
-searchInput.addEventListener("input",filterGames);
+searchInput.addEventListener("input", filterGames);
 
 chips.forEach(chip=>{
   chip.addEventListener("click",()=>{
