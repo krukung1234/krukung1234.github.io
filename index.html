@@ -15,30 +15,22 @@
     }
 
     header {
-      padding: 45px 20px 25px;
+      padding: 25px 16px 10px;
       text-align: center;
     }
 
-    .logo {
-      font-size: 58px;
-      margin-bottom: 10px;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: 38px;
-      color: #0b7fab;
-    }
-
-    .subtitle {
-      margin-top: 10px;
-      font-size: 20px;
-      font-weight: 600;
+    .cover {
+      width: 100%;
+      max-width: 1200px;
+      display: block;
+      margin: 0 auto 20px;
+      border-radius: 30px;
+      box-shadow: 0 15px 35px rgba(0,0,0,.25);
     }
 
     .search-box {
       max-width: 520px;
-      margin: 25px auto 10px;
+      margin: 20px auto 10px;
       padding: 0 15px;
     }
 
@@ -126,32 +118,21 @@
       font-weight: bold;
       color: #174766;
     }
-
-    @media (max-width: 600px) {
-      h1 { font-size: 30px; }
-      .subtitle { font-size: 17px; }
-      .logo { font-size: 48px; }
-    }
   </style>
 </head>
 <body>
 
- <header>
-  <img src="cover" 
-       alt="ครูกุ้งสอนไอที รวมเกมการศึกษา"
-       style="
-        width:100%;
-        max-width:1200px;
-        display:block;
-        margin:20px auto;
-        border-radius:30px;
-        box-shadow:0 15px 35px rgba(0,0,0,.25);
-       ">
-</header>
+  <header>
+    <img class="cover" src="cover.png" alt="ครูกุ้งสอนไอที รวมเกมการศึกษา">
+    
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="🔍 ค้นหาเกม เช่น ขยะ, Math, English, AI...">
+    </div>
+  </header>
 
   <main class="grid" id="gameGrid">
 
-    <div class="card" data-title="เกมคัดแยกขยะ ภารกิจคัดแยกขยะ">
+    <div class="card" data-title="เกมคัดแยกขยะ ภารกิจคัดแยกขยะ สิ่งแวดล้อม">
       <div class="icon">🗑️</div>
       <span class="tag">เกมสิ่งแวดล้อม</span>
       <h2>ภารกิจคัดแยกขยะ</h2>
@@ -191,7 +172,7 @@
       <a class="play soon" href="#">เร็ว ๆ นี้</a>
     </div>
 
-    <div class="card" data-title="Excel Word AI สื่อการสอน">
+    <div class="card" data-title="AI สื่อการสอน เกมการศึกษา">
       <div class="icon">📚</div>
       <span class="tag">สื่อการสอน</span>
       <h2>สื่อการสอน AI</h2>
@@ -210,17 +191,16 @@
     const cards = document.querySelectorAll(".card");
 
     searchInput.addEventListener("input", function () {
-      const keyword = this.value.toLowerCase();
+      const keyword = this.value.toLowerCase().trim();
 
       cards.forEach(card => {
         const title = card.dataset.title.toLowerCase();
         const text = card.innerText.toLowerCase();
 
-        if (title.includes(keyword) || text.includes(keyword)) {
-          card.style.display = "block";
-        } else {
-          card.style.display = "none";
-        }
+        card.style.display =
+          title.includes(keyword) || text.includes(keyword)
+            ? "block"
+            : "none";
       });
     });
   </script>
