@@ -1,20 +1,10 @@
-// วางลิงก์ Apps Script /exec ตรงนี้
-const API_URL = "https://script.google.com/macros/s/AKfycbzjV6IWOQJedG3ZnujlgQvij6puPIBYvCtvGnny05xwb6N7_acU3UPEx83CIik1uV0mQQ/exec";
-
-// ==========================================
-// config.js
+// ======================================
 // Krukung Game Hub
-// Firebase Configuration
-// ==========================================
+// Firebase Config
+// ======================================
 
-// -------------------------------
-// Admin
-// -------------------------------
 const ADMIN_PASSWORD = "vip69";
 
-// -------------------------------
-// Firebase Config
-// -------------------------------
 const firebaseConfig = {
   apiKey: "AIzaSyCVYn2hDEXG4J08hZwf5WMI6kyIJbWPVwg",
   authDomain: "krukung-game-hub.firebaseapp.com",
@@ -25,36 +15,20 @@ const firebaseConfig = {
   measurementId: "G-HWM115TVMB"
 };
 
-// -------------------------------
-// Firestore
-// -------------------------------
-const COLLECTION_GAMES = "games";
+const COLLECTION = "games";
 
-// -------------------------------
-// Default
-// -------------------------------
-const DEFAULT_GAME_IMAGE = "https://via.placeholder.com/400x300";
-const DEFAULT_GAME_URL = "#";
+const STATUS = {
+  OPEN: "open",
+  SOON: "soon",
+  HIDDEN: "hidden"
+};
 
-// -------------------------------
-// Categories
-// -------------------------------
-const GAME_CATEGORIES = [
-  "คณิตศาสตร์",
-  "ภาษาไทย",
-  "ภาษาอังกฤษ",
-  "วิทยาศาสตร์",
-  "คอมพิวเตอร์",
-  "AR",
-  "Coding",
-  "AI",
-  "อื่น ๆ"
-];
+const DEFAULT_IMAGE = "";
 
-// -------------------------------
-// Status
-// -------------------------------
-const GAME_STATUS = {
-  OPEN: "เปิดเล่น",
-  CLOSED: "ปิด"
+window.APP = {
+  ADMIN_PASSWORD,
+  firebaseConfig,
+  COLLECTION,
+  STATUS,
+  DEFAULT_IMAGE
 };
