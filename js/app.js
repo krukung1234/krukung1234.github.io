@@ -32,7 +32,8 @@ function render(){
   grid.innerHTML=data.map(g=>{
     const soon=isSoon(g.status), link=g.link||folderLink(g.folder);
     const playHref= soon ? "#" : `game-player.html?url=${encodeURIComponent(link)}`;
-    return `<article class="card"><div class="thumb">${g.image?`<img src="${esc(g.image)}" alt="${esc(g.title)}">`:"🎮"}</div><div class="body"><h3>${esc(g.title||"ไม่มีชื่อเกม")}</h3><p>${esc(g.description||"")}</p><span class="tag">${esc(g.category||"เกม")}</span><br><a class="play ${soon?'soon':''}" href="${esc(playHref)}">${soon?'เร็ว ๆ นี้':'▶ เล่นเกม'}</a></div></article>`;
+    const img = g.image ? `<img src="${esc(g.image)}" alt="" onerror="this.outerHTML='<div class=&quot;thumbFallback&quot;>🎮</div>'">` : `<div class="thumbFallback">🎮</div>`;
+    return `<article class="card"><div class="thumb">${img}</div><div class="body"><h3>${esc(g.title||"ไม่มีชื่อเกม")}</h3><p>${esc(g.description||"")}</p><span class="tag">${esc(g.category||"เกม")}</span><br><a class="play ${soon?'soon':''}" href="${esc(playHref)}">${soon?'เร็ว ๆ นี้':'▶ เล่นเกม'}</a></div></article>`;
   }).join("");
 }
 search?.addEventListener("input", render);
