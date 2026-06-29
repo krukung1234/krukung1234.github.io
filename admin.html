@@ -1,22 +1,38 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Admin | เพิ่มเกม ครูกุ้งสอนไอที</title>
-<style>
-*{box-sizing:border-box}body{margin:0;font-family:"Prompt","Sarabun",Arial,sans-serif;background:linear-gradient(135deg,#d9f6ff,#fff4c7,#ffe2f2);color:#17324d}.wrap{width:min(760px,94%);margin:28px auto;background:#fff;border-radius:28px;padding:24px;box-shadow:0 15px 35px rgba(0,0,0,.16)}h1{margin:0 0 8px;color:#1d4ed8}.note{background:#fff7cc;border-radius:18px;padding:14px;font-weight:700;margin:14px 0}label{font-weight:900;margin-top:14px;display:block}input,select,textarea{width:100%;padding:13px 15px;border:2px solid #dbe7f3;border-radius:14px;font-size:16px;outline:none}textarea{min-height:90px}button{margin-top:18px;width:100%;border:0;border-radius:999px;padding:15px 18px;font-size:18px;font-weight:900;color:white;background:linear-gradient(135deg,#2563eb,#06b6d4);cursor:pointer;box-shadow:0 6px 0 rgba(0,0,0,.18)}.back{display:inline-block;margin-bottom:14px;text-decoration:none;font-weight:900;color:#1d4ed8}.status{margin-top:14px;font-weight:900;text-align:center}.ok{color:#16a34a}.err{color:#dc2626}.small{font-size:13px;color:#5b6b7a}
-</style></head>
-<body><main class="wrap"><a class="back" href="index.html">← กลับหน้าเว็บ</a><h1>➕ เพิ่มเกมใหม่</h1><div class="note">กรอกข้อมูลแล้วกดบันทึก เกมจะถูกเพิ่มลง Google Sheet และแสดงที่หน้าเว็บอัตโนมัติ</div>
-<form id="gameForm">
-<label>ชื่อเกม</label><input name="title" required placeholder="เช่น ภารกิจคัดแยกขยะ">
-<label>คำอธิบายสั้น ๆ</label><textarea name="description" required placeholder="เช่น ใช้กล้องและมือ ลากขยะลงถังให้ถูกต้อง"></textarea>
-<label>หมวดหมู่</label><select name="category" required><option>สิ่งแวดล้อม</option><option>คณิตศาสตร์</option><option>ภาษา</option><option>คอมพิวเตอร์</option><option>AI</option><option>ฝึกสมอง</option><option>วิทยาศาสตร์</option></select>
-<label>ลิงก์รูปภาพ</label><input name="image" placeholder="เช่น garbage.png หรือ https://.../image.png"><div class="small">ถ้าใช้รูปใน GitHub ให้ใส่ชื่อไฟล์ เช่น garbage.png</div>
-<label>ลิงก์เกม</label><input name="link" placeholder="เช่น garbage-hand-game/ หรือ https://..."></input>
-<label>สถานะ</label><select name="status"><option value="open">เปิดให้เล่น</option><option value="soon">เร็ว ๆ นี้</option></select>
-<button type="submit">💾 บันทึกเกม</button><div id="status" class="status"></div>
-</form></main>
-<script>
-const API_URL = "https://script.google.com/macros/s/AKfycbzjV6IWOQJedG3ZnujlgQvij6puPIBYvCtvGnny05xwb6N7_acU3UPEx83CIik1uV0mQQ/exec"; // วางลิงก์ /exec ตรงนี้
-const form=document.getElementById('gameForm');const statusBox=document.getElementById('status');
-form.addEventListener('submit',async(e)=>{e.preventDefault();statusBox.className='status';statusBox.textContent='กำลังบันทึก...';try{if(!API_URL.includes('/exec')) throw new Error('ยังไม่ได้ใส่ API_URL');const fd=new FormData(form);const params=new URLSearchParams();for(const [k,v] of fd.entries()) params.append(k,v);const res=await fetch(API_URL,{method:'POST',body:params});const data=await res.json();if(data.success){statusBox.className='status ok';statusBox.textContent='✅ เพิ่มเกมสำเร็จ';form.reset();}else throw new Error(data.message||'บันทึกไม่สำเร็จ');}catch(err){statusBox.className='status err';statusBox.textContent='❌ '+err.message;}});
-</script></body></html>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin | เพิ่มเกม</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+  <main class="panel">
+    <section id="loginBox" class="card">
+      <h1>➕ เพิ่มเกมใหม่</h1>
+      <label>รหัส Admin</label>
+      <input id="password" type="password" placeholder="ใส่รหัส">
+      <button onclick="login()">เข้าสู่ระบบ</button>
+      <p class="note">รหัสเริ่มต้น: <b>1234</b> เปลี่ยนได้ที่ไฟล์ <b>js/config.js</b> ตรง ADMIN_PASSWORD</p>
+    </section>
+
+    <section id="adminBox" class="card hidden">
+      <div class="head"><h1>🎮 จัดการเกม</h1><button class="ghost" onclick="logout()">ออกจากระบบ</button></div>
+      <form id="gameForm">
+        <input type="hidden" id="id">
+        <label>ชื่อเกม</label><input id="title" required placeholder="เช่น ภารกิจคัดแยกขยะ">
+        <label>รายละเอียดสั้น ๆ</label><textarea id="description" required placeholder="อธิบายเกมสั้น ๆ"></textarea>
+        <label>หมวดหมู่</label><select id="category"><option>สิ่งแวดล้อม</option><option>คณิตศาสตร์</option><option>ภาษา</option><option>คอมพิวเตอร์</option><option>AI</option><option>อื่น ๆ</option></select>
+        <label>ลิงก์รูปภาพ</label><input id="image" placeholder="เช่น https://... หรือ garbage.png">
+        <label>ลิงก์เกม</label><input id="link" placeholder="เช่น games/garbage/ หรือ #">
+        <label>สถานะ</label><select id="status"><option value="open">เปิดเล่น</option><option value="soon">เร็ว ๆ นี้</option><option value="hidden">ซ่อน</option></select>
+        <div class="row"><button type="submit">💾 บันทึกเกม</button><button type="button" class="warn" onclick="resetForm()">ล้างฟอร์ม</button></div>
+      </form>
+      <h2>รายการเกม</h2>
+      <div id="list" class="list"></div>
+    </section>
+  </main>
+  <script src="js/config.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
