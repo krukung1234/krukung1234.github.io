@@ -1,70 +1,46 @@
-<!DOCTYPE html>
-<html lang="th">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ครูกุ้งสอนไอที | VIP รวมเกมการศึกษา AI</title>
-  <link rel="stylesheet" href="css/style.css" />
-</head>
-<body>
-  <section id="vipLoginBox" class="vip-login-page">
-    <div class="vip-login-card">
-      <div class="vip-icon">🎮</div>
-      <h1>VIP Game Hub</h1>
-      <p>ระบบรวมเกมการศึกษา AI สำหรับสมาชิก VIP</p>
-      <input id="vipPassword" type="password" placeholder="กรอกรหัส VIP" autocomplete="current-password" />
-      <button onclick="vipLogin()">เข้าสู่เว็บ VIP</button>
-      <small id="vipError" class="vip-error"></small>
+<!DOCTYPE html><html lang="th"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ครูกุ้งสอนไอที | รวมเกมการศึกษา AI</title>
+<link rel="stylesheet" href="css/style.css">
+</head><body>
+<div id="vipLogin" class="login-screen">
+  <div class="login-card">
+    <div class="login-logo">🎮</div>
+    <h1>ครูกุ้งสอนไอที</h1>
+    <p>เข้าสู่ระบบสมาชิก VIP เพื่อเล่นเกมการศึกษา</p>
+    <input id="vipPassword" type="password" placeholder="กรอกรหัส VIP">
+    <button id="vipLoginBtn">เข้าสู่เว็บไซต์</button>
+    <small id="vipError"></small>
+  </div>
+</div>
+
+<div id="site" class="hidden">
+<header class="topbar">
+  <div class="brand"><span>🎮</span><div><b>ครูกุ้งสอนไอที</b><small>รวมเกมการศึกษา AI</small></div></div>
+  <nav><a href="#home">หน้าแรก</a><a href="#gamesSection">เกมทั้งหมด</a><a href="#categories">หมวดหมู่</a><a href="#about">เกี่ยวกับเรา</a><button id="logoutVip" class="ghost">ออก</button><a class="admin-link" href="admin.html">Admin</a></nav>
+</header>
+
+<main id="home">
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="badge">✨ VIP Educational Game Hub</div>
+      <h1>ศูนย์รวมเกมการศึกษา AI</h1>
+      <p>เลือกเกมสนุก ๆ แล้วกดเล่นได้เลย ฝึกคิด ฝึกทักษะ และเรียนรู้อย่างสร้างสรรค์</p>
+      <div class="search-wrap"><input id="searchInput" placeholder="ค้นหาเกม เช่น ขยะ, Math, AI..."><button>🔍</button></div>
+      <div id="chips" class="chips"></div>
     </div>
   </section>
 
-  <div id="siteShell" class="site-shell hidden">
-    <nav class="navbar">
-      <a class="brand" href="index.html">
-        <span class="brand-icon">🎮</span>
-        <span><b>ครูกุ้งสอนไอที</b><small>รวมเกมการศึกษา AI</small></span>
-      </a>
-      <div class="navlinks">
-        <a href="#home">หน้าแรก</a>
-        <a href="#games-section">เกมทั้งหมด</a>
-        <a href="#categories">หมวดหมู่</a>
-        <a href="#about">เกี่ยวกับเรา</a>
-        <a class="admin-pill" href="admin.html">Admin</a>
-        <button class="vip-logout" onclick="vipLogout()">ออกจาก VIP</button>
-      </div>
-    </nav>
+  <section class="container" id="gamesSection">
+    <div class="section-head"><h2>🔥 เกมแนะนำ</h2><span id="countText">0 เกม</span></div>
+    <div id="games" class="game-grid"></div>
+    <div id="empty" class="empty hidden">ยังไม่มีเกมที่ตรงกับการค้นหา</div>
+  </section>
 
-    <main id="home">
-      <section class="hero-card">
-        <img src="cover.png" alt="ครูกุ้งสอนไอที รวมเกมการศึกษา AI" onerror="this.style.display='none';document.querySelector('.hero-fallback').style.display='grid'">
-        <div class="hero-fallback">
-          <h1>ครูกุ้งสอนไอที</h1>
-          <p>รวมเกมการศึกษา AI เล่นง่าย ได้ความรู้ สนุกทุกเกม</p>
-        </div>
-      </section>
-
-      <section class="search-zone">
-        <div class="search-box">
-          <input id="searchInput" placeholder="ค้นหาเกม เช่น ขยะ, Math, English, AI..." />
-          <button>🔍</button>
-        </div>
-        <div id="chips" class="chips"></div>
-      </section>
-
-      <section id="games-section" class="content-section">
-        <div class="section-head">
-          <h2>🔥 เกมแนะนำ</h2>
-          <span id="countText">0 เกม</span>
-        </div>
-        <div id="games" class="games-grid"></div>
-        <p id="empty" class="empty hidden">ยังไม่มีเกมในหมวดนี้</p>
-      </section>
-    </main>
-
-    <footer id="about" class="footer">© ครูกุ้งสอนไอที | Educational Game Hub</footer>
-  </div>
-
-  <script src="js/config.js"></script>
-  <script src="js/app.js"></script>
-</body>
-</html>
+  <section class="container mini-about" id="about"><h2>เกี่ยวกับเว็บนี้</h2><p>เว็บรวมเกมการศึกษาสำหรับสมาชิก VIP ครูกุ้งสอนไอที เพิ่มเกมใหม่ได้จากระบบ Admin และเปิดเล่นได้บนคอมพิวเตอร์/มือถือ</p></section>
+</main>
+<footer>© ครูกุ้งสอนไอที | Educational Game Hub</footer>
+</div>
+<script src="js/config.js"></script><script src="js/app.js"></script>
+</body></html>

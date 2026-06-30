@@ -1,4 +1,5 @@
-// Krukung Game Hub V15 - VIP Login + Admin Login
+// Krukung Game Hub V16 Professional
+// แก้รหัสได้ตรงนี้
 const VIP_PASSWORD = "vip2026";
 const ADMIN_PASSWORD = "vip69";
 
@@ -17,26 +18,25 @@ const APP_CONFIG = {
   ADMIN_PASSWORD,
   firebaseConfig,
   COLLECTION_GAMES: "games",
-  STATUS_LABELS: { open: "เปิดเล่น", soon: "เร็ว ๆ นี้", hidden: "ซ่อน" }
+  DEFAULT_COVER: "images/default-cover.png",
+  STATUS_LABELS: { open:"เปิดเล่น", soon:"เร็ว ๆ นี้", hidden:"ซ่อน" },
+  CATEGORIES: ["สิ่งแวดล้อม","คณิตศาสตร์","ภาษาไทย","ภาษาอังกฤษ","วิทยาศาสตร์","คอมพิวเตอร์","AI","AR","ฝึกสมอง","อื่น ๆ"]
 };
-
 window.APP_CONFIG = APP_CONFIG;
 
-function loadFirebaseScript(src) {
-  return new Promise((resolve, reject) => {
-    if (document.querySelector(`script[src="${src}"]`)) return resolve();
-    const script = document.createElement("script");
-    script.src = src;
-    script.onload = resolve;
-    script.onerror = () => reject(new Error("โหลด Firebase SDK ไม่สำเร็จ"));
-    document.head.appendChild(script);
+function loadFirebaseScript(src){
+  return new Promise((resolve,reject)=>{
+    if(document.querySelector(`script[src="${src}"]`)) return resolve();
+    const s=document.createElement('script');
+    s.src=src; s.onload=resolve; s.onerror=()=>reject(new Error('โหลด Firebase SDK ไม่สำเร็จ'));
+    document.head.appendChild(s);
   });
 }
 
-window.firebaseReady = (async () => {
-  await loadFirebaseScript("https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js");
-  await loadFirebaseScript("https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js");
-  if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+window.firebaseReady = (async()=>{
+  await loadFirebaseScript('https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js');
+  await loadFirebaseScript('https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js');
+  if(!firebase.apps.length) firebase.initializeApp(firebaseConfig);
   window.db = firebase.firestore();
   window.gamesRef = window.db.collection(APP_CONFIG.COLLECTION_GAMES);
   return { firebase, db: window.db, gamesRef: window.gamesRef };
