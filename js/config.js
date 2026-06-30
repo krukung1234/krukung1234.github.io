@@ -1,4 +1,5 @@
-// Krukung Game Hub V13 Full
+// Krukung Game Hub V15 - VIP Login + Admin Login
+const VIP_PASSWORD = "vip2026";
 const ADMIN_PASSWORD = "vip69";
 
 const firebaseConfig = {
@@ -12,6 +13,7 @@ const firebaseConfig = {
 };
 
 const APP_CONFIG = {
+  VIP_PASSWORD,
   ADMIN_PASSWORD,
   firebaseConfig,
   COLLECTION_GAMES: "games",

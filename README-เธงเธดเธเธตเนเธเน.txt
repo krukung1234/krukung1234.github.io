@@ -1,32 +1,31 @@
-Krukung Game Hub V13 Full
+Krukung Game Hub V15 - VIP Login + Admin Login
 
-วิธีลงไฟล์
-1) แตก ZIP
-2) เปิดโฟลเดอร์ krukung_v13_full
-3) คัดลอกไฟล์ทั้งหมดไปวางทับในโฟลเดอร์ krukung1234.github.io
-4) เปิด GitHub Desktop > Commit > Push origin
-5) เปิดเว็บด้วย ?v=13
+สิ่งที่เพิ่มในเวอร์ชันนี้
+1) หน้าเว็บหลัก https://krukung1234.github.io/ จะมีหน้า Login สำหรับสมาชิก VIP ก่อน
+2) หน้า Admin https://krukung1234.github.io/admin.html ใช้รหัส Admin แยกต่างหาก
+3) หน้า Login ไม่แสดงรหัสผ่านบนหน้าจอ
+4) ระบบเกมยังใช้ Folder Mode เหมือนเดิม
 
-ลิงก์เว็บ
-หน้าเว็บหลัก: https://krukung1234.github.io/?v=13
-หน้า Admin: https://krukung1234.github.io/admin.html?v=13
+รหัสผ่านเริ่มต้น
+- VIP Password: vip2026
+- Admin Password: vip69
 
-วิธีเพิ่มเกมแบบง่าย
-1) ในโฟลเดอร์ krukung1234.github.io ให้เข้าโฟลเดอร์ games
-2) สร้างโฟลเดอร์เกม เช่น ar-sudoku
-3) ใส่ไฟล์เกมไว้ในนั้น โดยต้องมี index.html
-4) ถ้ามีรูปปก ให้ตั้งชื่อ cover.png แล้วใส่ในโฟลเดอร์เกม
-ตัวอย่าง: games/ar-sudoku/index.html และ games/ar-sudoku/cover.png
-5) GitHub Desktop > Commit > Push origin
-6) เข้า Admin > กรอกชื่อเกม หมวด รายละเอียด และชื่อโฟลเดอร์ ar-sudoku
-7) ช่องรูปปกเว้นว่างได้ ระบบจะใช้ games/ar-sudoku/cover.png อัตโนมัติ
+วิธีเปลี่ยนรหัสผ่าน
+เปิดไฟล์ js/config.js แล้วแก้บรรทัดนี้
+const VIP_PASSWORD = "vip2026";
+const ADMIN_PASSWORD = "vip69";
 
-Firestore Rules สำหรับทดสอบ
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /games/{docId} {
-      allow read, write: if true;
-    }
-  }
-}
+วิธีลงเว็บ
+1. แตก ZIP
+2. เปิดโฟลเดอร์ krukung_v15
+3. คัดลอกไฟล์ทั้งหมดไปวางทับในโฟลเดอร์ krukung1234.github.io
+4. เปิด GitHub Desktop
+5. Commit
+6. Push origin
+7. เปิดลิงก์
+   https://krukung1234.github.io/?v=15
+   https://krukung1234.github.io/admin.html?v=15
+
+หมายเหตุเรื่องความปลอดภัย
+วิธีนี้เป็นระบบล็อกแบบง่าย เหมาะสำหรับกลุ่ม VIP ทั่วไปบน GitHub Pages
+ถ้าต้องการระบบสมาชิกปลอดภัยระดับสูง ต้องใช้ Firebase Authentication เพิ่มเติม
