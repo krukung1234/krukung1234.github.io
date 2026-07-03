@@ -20,7 +20,7 @@ const APP_CONFIG = {
   COLLECTION_GAMES: "games",
   DEFAULT_COVER: "images/default-cover.png",
   STATUS_LABELS: { open:"เปิดเล่น", soon:"เร็ว ๆ นี้", hidden:"ซ่อน" },
-  CATEGORIES: ["สิ่งแวดล้อม","คณิตศาสตร์","ภาษาไทย","ภาษาอังกฤษ","วิทยาศาสตร์","วิทยาการคำนวณ","อื่น ๆ"]
+  CATEGORIES: ["คณิตศาสตร์","ภาษาไทย","ภาษาอังกฤษ","วิทยาศาสตร์","สุขศึกษา","วิทยาการคำนวณ","อื่น ๆ"]
 };
 window.APP_CONFIG = APP_CONFIG;
 
