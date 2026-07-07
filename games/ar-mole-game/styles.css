@@ -552,6 +552,17 @@ button {
   display: none;
 }
 
+.start-screen.is-locked .primary-button,
+.start-screen.is-locked .secondary-button,
+.primary-button:disabled,
+.secondary-button:disabled {
+  cursor: default;
+  opacity: 0.58;
+  filter: saturate(0.72);
+  transform: none;
+  pointer-events: none;
+}
+
 .message {
   position: fixed;
   z-index: 8;

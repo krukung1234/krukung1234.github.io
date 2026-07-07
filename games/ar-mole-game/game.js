@@ -39,6 +39,7 @@ let roundLocked = false;
 let targetQueue = [];
 let trapQueue = [];
 let lastUseCamera = true;
+let endUnlockId = 0;
 
 function makeHole(index) {
   const hole = document.createElement("button");
@@ -146,6 +147,8 @@ function showPair() {
 }
 
 async function startGame(useCamera = lastUseCamera) {
+  window.clearTimeout(endUnlockId);
+  unlockEndButtons();
   lastUseCamera = useCamera;
   active = true;
   score = 0;
@@ -181,17 +184,27 @@ function endGame() {
   window.clearTimeout(popId);
   clearHoles();
   startTitle.textContent = `หมดเวลา! ได้ ${score} คะแนน`;
-  startCopy.textContent = "เลือกเล่นอีกครั้ง หรือออกจากเกม";
+  startCopy.textContent = "ดูคะแนนก่อนนะ ปุ่มจะกดได้ในอีก 2 วินาที";
   startButton.textContent = "เล่นอีกครั้ง";
   startScreen.classList.add("is-end");
+  startScreen.classList.add("is-locked");
   startScreen.classList.remove("is-hidden");
+  lockEndButtons();
+  endUnlockId = window.setTimeout(() => {
+    if (!startScreen.classList.contains("is-end")) return;
+    startCopy.textContent = "เลือกเล่นอีกครั้ง หรือออกจากเกม";
+    startScreen.classList.remove("is-locked");
+    unlockEndButtons();
+  }, 2000);
   burst(window.innerWidth / 2, window.innerHeight * 0.45, 44);
 }
 
 function resetToStart() {
+  window.clearTimeout(endUnlockId);
+  unlockEndButtons();
   active = false;
   appShell.classList.remove("is-playing");
-  startScreen.classList.remove("is-end");
+  startScreen.classList.remove("is-end", "is-locked");
   window.clearInterval(countdownId);
   window.clearTimeout(popId);
   clearHoles();
@@ -203,6 +216,16 @@ function resetToStart() {
   startButton.textContent = "เริ่มแบบเปิดกล้อง AR";
   startScreen.classList.remove("is-hidden");
   stopCamera();
+}
+
+function lockEndButtons() {
+  startButton.disabled = true;
+  exitButton.disabled = true;
+}
+
+function unlockEndButtons() {
+  startButton.disabled = false;
+  exitButton.disabled = false;
 }
 
 function hitHole(event) {
