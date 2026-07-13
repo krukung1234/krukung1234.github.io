@@ -20,6 +20,22 @@
     @media(max-width:820px){.hud{grid-template-columns:1fr;gap:7px}.hud-left,.hud-right{justify-content:center}.chip{min-height:44px;padding:6px 9px;font-size:14px}.controls{position:absolute;right:0;top:62px}.question-card{top:112px;width:min(92vw,760px);padding:18px 24px}.question-card h2{font-size:clamp(36px,5.2vw,42px)}#answers{top:225px}.answer{width:min(240px,30vw);top:32%}.reward-box h2{padding:18px 30px}}
     @media(max-width:560px){.hud{top:8px;left:8px;right:8px}.hud-left,.hud-right{gap:5px}.chip{font-size:12px;min-height:39px}.controls{top:50px}.iconbtn{width:36px;height:36px}.question-card{top:104px;width:94vw;padding:16px 17px;border-width:4px}.question-label{margin-top:-34px;font-size:16px;border-width:3px;padding:3px 16px}.question-card h2{font-size:clamp(30px,8vw,36px)}.question-card p{display:none}#answers{top:190px}.answer{top:25%;width:min(180px,44vw)}.answer-label{font-size:12px;bottom:13%}.reward-box{gap:7px}.reward-box h2{padding:14px 22px;font-size:clamp(26px,8vw,38px)}.shield{width:150px}.motion{font-size:12px}.summary,.final-focus{grid-template-columns:1fr}}
     .question-card h2 .unsafe-word{color:#d92929;text-decoration:underline;text-decoration-thickness:.09em;text-underline-offset:.12em}
+    /* Game HUD: keep the centre clear for the question and keep answers inside frame. */
+    .controls{display:none!important}
+    @media(min-width:821px){
+      .hud{grid-template-columns:auto 1fr auto;align-items:start}
+      .hud-left{grid-column:1}
+      .hud-right{grid-column:3;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-areas:'score score' 'coins combo';gap:7px;width:220px;min-width:220px}
+      .hud-right .chip{min-height:48px;padding:7px 10px;font-size:clamp(14px,1.3vw,18px)}
+      .hud-right .chip:nth-child(1){grid-area:score;min-height:78px;padding:10px 18px;font-size:clamp(18px,1.7vw,23px)}
+      .hud-right .chip:nth-child(2){grid-area:coins}
+      .hud-right .chip:nth-child(3){grid-area:combo}
+      .question-card{top:clamp(12px,1.8vh,20px);width:min(900px,48vw);padding:14px 30px 16px}
+      .question-label{margin-top:-39px}
+      .question-card h2{margin:5px 0 0;font-size:clamp(38px,3.4vw,54px)}
+      #answers{top:155px}
+      .answer{top:22%}
+    }
 </style>
 </head>
 <body>
