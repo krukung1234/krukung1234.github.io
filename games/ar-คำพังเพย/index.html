@@ -660,4 +660,188 @@ $("#exit").onclick=()=>{stopAll();renderLevels();show("#levels")};
 $("#quickLibraryBtn").onclick=()=>{renderQuickLibrary();$("#quickLibrary").classList.remove("hidden")};
 $("#closeQuickLibrary").onclick=()=>$("#quickLibrary").classList.add("hidden");$("#again").onclick=beginRound;$("#sumLevels").onclick=()=>{stopAll();renderLevels();show("#levels")};$("#sumEncy").onclick=()=>{stopAll();renderBooks();show("#ency")};$("#next").onclick=()=>{stopAll();startLevel(currentLevel+1)};
 addEventListener("pagehide",stopAll);renderLevels();renderBooks();
-</script></body></html>
+</script>
+
+<!-- เวอร์ชันปรับ UI / ลำดับด่าน 25-07-2026 -->
+<style>
+/* ระบบการ์ดกลาง: ใช้เหมือนกันในด่าน 1, 3, 4 และ 5 */
+#game:not(.orderMode) #answers{
+  left:3.5vw;right:3.5vw;bottom:15vh;top:auto;width:auto;
+  display:grid;grid-template-columns:minmax(190px,23vw) minmax(190px,23vw);
+  justify-content:space-between;gap:0;z-index:9;
+}
+#game:not(.orderMode) #answers.twoChoices{left:3.5vw;right:3.5vw;bottom:15vh;top:auto;width:auto;
+  grid-template-columns:minmax(190px,23vw) minmax(190px,23vw);justify-content:space-between;gap:0}
+#game:not(.orderMode) #answers .answer{
+  position:relative;width:100%;aspect-ratio:1 / .88;min-height:0;max-height:265px;
+  padding:20px;border-radius:25px;border:3px solid #ffe18a;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(145deg,#82471f,#401a08);color:#fff;
+  font-size:clamp(17px,2vw,28px);line-height:1.35;
+  box-shadow:0 8px 0 #2e1204,0 14px 25px #0009;
+  transition:transform .18s ease,filter .18s ease,box-shadow .18s ease,background .18s ease;
+}
+#game:not(.orderMode) #answers .answer:hover,#game:not(.orderMode) #answers .answer.hover{
+  transform:translateY(-5px) scale(1.045);filter:brightness(1.13);
+  box-shadow:0 0 0 4px #ffe18a55,0 0 32px #ffe36a,0 12px 0 #2e1204,0 18px 28px #0009;
+}
+#game:not(.orderMode) #answers .answer.correctChoice{background:linear-gradient(145deg,#77cf7c,#1c783e)!important;box-shadow:0 0 38px #6aff8c,0 8px 0 #0b3a1a!important;animation:answerPop .38s cubic-bezier(.2,1.4,.35,1)}
+#game:not(.orderMode) #answers .answer.correctChoice::after{content:"✓";position:absolute;right:18px;top:12px;font-size:clamp(32px,4vw,54px);color:#fff7bd;text-shadow:0 2px 0 #15632e}
+#game:not(.orderMode) #answers .answer.wrongChoice{background:linear-gradient(145deg,#de6060,#8b2525)!important;box-shadow:0 0 24px #ff7777,0 8px 0 #551010!important;animation:answerShake .36s ease}
+#game:not(.orderMode) #answers .answer.wrongChoice::after{content:"✗";position:absolute;right:18px;top:12px;font-size:clamp(32px,4vw,54px);color:#fff0e8;text-shadow:0 2px 0 #6e1515}
+@keyframes answerPop{0%{transform:scale(1)}48%{transform:scale(1.12)}100%{transform:scale(1)}}
+@keyframes answerShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}50%{transform:translateX(8px)}75%{transform:translateX(-5px)}}
+/* ด่านเรียงคำ: ให้ช่องคำตอบแสดงผลถูก/ผิดด้วยมาตรฐานเดียวกัน */
+.orderMode .slot.orderCorrect{background:linear-gradient(145deg,#77cf7c,#1c783e)!important;border-color:#d8ff9d!important;box-shadow:0 0 24px #6aff8c;animation:answerPop .38s ease}
+.orderMode .slot.orderWrong{background:linear-gradient(145deg,#de6060,#8b2525)!important;border-color:#ffc1b1!important;animation:answerShake .36s ease}
+
+/* แผงคำถามใช้ขนาดสม่ำเสมอ และด่าน 4 ใส่ทั้งภาพกับสถานการณ์ */
+#game:not(.orderMode) #qbox{width:min(900px,70vw);min-height:170px;top:12vh;padding:16px 26px}
+#game.pictureSituationMode #qbox{width:min(1040px,76vw);display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;text-align:left}
+#game.pictureSituationMode #emoji{margin:0}
+#game.pictureSituationMode #emoji .questionImage{width:min(22vw,225px);height:min(22vw,225px);max-height:29vh}
+#game.pictureSituationMode #prompt{text-align:left}
+
+/* popup ขนาดเล็ก ไม่บังโจทย์ */
+#feedback{top:50%;padding:12px 20px;min-width:205px;border-radius:18px;font-size:clamp(18px,2.3vw,29px);line-height:1.15;background:#28160ee8;box-shadow:0 8px 24px #0008;z-index:35}
+#feedback small{display:block;font-size:.62em;margin-top:5px;color:#ffe9a0}
+#feedback.show{animation:feedbackIn .16s ease both}
+@keyframes feedbackIn{from{opacity:0;transform:translate(-50%,-50%) scale(.72)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+#effects{position:fixed;inset:0;pointer-events:none;z-index:34;overflow:hidden}
+.fx{position:absolute;left:50%;top:46%;font-size:clamp(18px,2.2vw,30px);animation:fallSpark 1s ease-out forwards;filter:drop-shadow(0 2px 3px #0008)}
+@keyframes fallSpark{0%{opacity:0;transform:translate(-50%,-20px) scale(.5) rotate(0deg)}14%{opacity:1}100%{opacity:0;transform:translate(calc(-50% + var(--x)),calc(18vh + var(--y))) scale(1.15) rotate(240deg)}}
+#score strong.scorePop{display:inline-block;animation:scorePop .45s cubic-bezier(.2,1.45,.3,1)}
+@keyframes scorePop{0%{transform:scale(1)}50%{transform:scale(1.5);color:#fff19b;text-shadow:0 0 22px #ffd85a}100%{transform:scale(1)}}
+
+@media(max-width:900px){
+  #game:not(.orderMode) #qbox{width:88vw;top:11vh;min-height:125px;padding:13px 17px}
+  #game:not(.orderMode) #answers,#game:not(.orderMode) #answers.twoChoices{left:3vw;right:3vw;bottom:13vh;grid-template-columns:minmax(142px,36vw) minmax(142px,36vw)}
+  #game:not(.orderMode) #answers .answer{aspect-ratio:1 / 1;max-height:220px;padding:14px;font-size:clamp(16px,3.8vw,23px)}
+  #game.pictureSituationMode #qbox{width:90vw;grid-template-columns:110px 1fr;gap:11px}
+  #game.pictureSituationMode #emoji .questionImage{width:105px;height:105px}
+}
+@media(max-height:680px){#game:not(.orderMode) #qbox{top:9vh;min-height:105px}#game:not(.orderMode) #answers,#game:not(.orderMode) #answers.twoChoices{bottom:8vh}#game:not(.orderMode) #answers .answer{max-height:190px}}
+/* สารานุกรม: ใช้ภาพปกทุกคำ และคำที่ยังไม่ปลดล็อกเป็นภาพเงาสีเทา */
+.book .bookThumb{height:118px;aspect-ratio:auto;object-fit:cover}
+#quickBooks .book .bookThumb{height:122px}
+.book.lock{filter:none!important;opacity:1!important;background:linear-gradient(#605d59,#292725)!important;border-color:#a29d93!important;color:#e3dfd6!important}
+.book.lock .bookThumb{filter:grayscale(1) brightness(.52) contrast(.85);opacity:.86}
+.book.lock b,.book.lock p{color:#ddd8cf!important}
+.quicklibhead .resetBtn{margin-left:auto}
+</style>
+<div id="effects" aria-hidden="true"></div>
+<script>
+/* ลำดับใหม่: 1 ภาพ, 2 เรียงคำ, 3 ความหมาย, 4 ภาพ+สถานการณ์, 5 สถานการณ์ */
+const NEW_LEVELS=[
+ {icon:"🖼️",name:"ภาพ → คำพังเพย",task:"เลือกคำพังเพยให้ตรงกับภาพ",stars:"⭐"},
+ {icon:"🧩",name:"เรียงคำ",task:"เรียงคำให้เป็นคำพังเพยที่ถูกต้อง",stars:"⭐⭐"},
+ {icon:"📖",name:"ความหมาย → คำพังเพย",task:"อ่านความหมาย แล้วเลือกคำพังเพย",stars:"⭐⭐⭐"},
+ {icon:"🖼️",name:"ภาพ + สถานการณ์ → คำพังเพย",task:"ดูภาพและอ่านสถานการณ์ แล้วเลือกคำพังเพย",stars:"⭐⭐⭐⭐"},
+ {icon:"🎭",name:"สถานการณ์ → คำพังเพย",task:"อ่านสถานการณ์ แล้วเลือกคำพังเพยที่เหมาะที่สุด",stars:"⭐⭐⭐⭐⭐"}
+];
+
+function renderLevels(){
+  $("#overall").textContent=`สะสม ${unlocked.length}/${DATA.length} คำ`;
+  $("#levelCards").innerHTML=NEW_LEVELS.map((l,i)=>{const id=i+1,lock=id>prog.unlockedLevel;return `<div class="level ${lock?"lock":""}" data-l="${id}"><div class="icon">${l.icon}</div><h3>ด่าน ${id} ${l.stars}</h3><h4>${l.name}</h4><p>${l.task}</p><div class="stars">${stars(prog.stars[id])}</div><b>${lock?"🔒 ยังไม่ปลดล็อก":"10 ข้อ"}</b></div>`}).join("");
+  $$(".level:not(.lock)").forEach(x=>x.onclick=()=>startLevel(+x.dataset.l));
+}
+function beginRound(){
+  const dataLevel=currentLevel===4?5:currentLevel===5?4:currentLevel;
+  deck=shuffle(DATA.filter(x=>x.level===dataLevel));qi=0;score=0;startAt=Date.now();
+  $("#score").innerHTML="คะแนน<br><strong>0</strong>";
+  clearInterval(timer);timer=setInterval(()=>$("#time").textContent="เวลา "+fmt(Math.floor((Date.now()-startAt)/1000)),500);nextQ();
+}
+function modeFor(){return currentLevel===1?"image":currentLevel===2?"order":currentLevel===3?"meaning":currentLevel===4?"pictureSituation":"situation"}
+function nextQ(){
+  if(qi>=10)return finish();resetHoverHold();answerLock=false;
+  $("#game").classList.remove("orderMode","level3Mode","level4Mode","level5Mode","pictureSituationMode");
+  $("#progress").textContent=`ด่าน ${currentLevel} ${NEW_LEVELS[currentLevel-1].stars}  ข้อ ${qi+1}/10`;
+  $("#answers").innerHTML="";$("#answers").classList.remove("twoChoices");$("#wordArea").classList.add("hidden");$("#speak").classList.add("hidden");
+  currentMode=modeFor();const q=deck[qi];if(currentMode==="order")renderOrder(q);else renderChoice(q);
+}
+function renderChoice(q){
+  $("#answers").classList.add("twoChoices");
+  if(currentMode==="image"){
+    $("#emoji").innerHTML=q.image?`<img class="questionImage" src="${q.image}" alt="ภาพคำพังเพย">`:`<span>${q.emoji||"🖼️"}</span>`;
+    $("#prompt").textContent="ภาพนี้ตรงกับคำพังเพยข้อใด";
+  }else if(currentMode==="meaning"){
+    $("#emoji").textContent="📖";$("#prompt").textContent=q.meaning;
+  }else if(currentMode==="pictureSituation"){
+    $("#game").classList.add("pictureSituationMode");
+    $("#emoji").innerHTML=q.image?`<img class="questionImage" src="${q.image}" alt="ภาพประกอบสถานการณ์">`:`<span>🖼️</span>`;
+    $("#prompt").textContent=q.scene;
+  }else{
+    $("#emoji").textContent="🎭";$("#prompt").textContent=q.scene;
+  }
+  const candidates=DATA.filter(x=>x.idiom&&x.idiom!==q.idiom);
+  const wrong=(shuffle(candidates)[0]||{idiom:"ไม่มีคำตอบ"}).idiom;
+  const options=shuffle([{text:q.idiom,correct:true},{text:wrong,correct:false}]);
+  $("#answers").innerHTML=options.map(o=>`<div class="answer" data-correct="${o.correct}" role="button" tabindex="0">${o.text}</div>`).join("");
+  $$("#answers .answer").forEach(el=>{
+    const choose=()=>chooseAnswer(el,q);el._hoverAction=choose;el.onclick=choose;
+    el.onpointerdown=e=>{if(e.pointerType!=="mouse"){e.preventDefault();choose()}};
+    el.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();choose()}};
+  });
+}
+function chooseAnswer(el,q){
+  if(answerLock)return;answerLock=true;const ok=el.dataset.correct==="true";
+  el.classList.add(ok?"correctChoice":"wrongChoice");if(ok)popSound();
+  setTimeout(()=>check(ok,q,true),270);
+}
+function check(ok,q,alreadyLocked=false){
+  if(answerLock&&!alreadyLocked)return;answerLock=true;
+  if(currentMode==="order")$$(".slot.filled").forEach(x=>x.classList.add(ok?"orderCorrect":"orderWrong"));
+  if(ok){
+    score++;$("#score").innerHTML="คะแนน<br><strong class=\"scorePop\">"+score+"</strong>";
+    if(!unlocked.includes(q.id))unlocked.push(q.id);save();celebrate();flash(true);
+  }else flash(false);
+  setTimeout(()=>{qi++;nextQ()},ok?1050:900);
+}
+function flash(ok){
+  $("#feedback").innerHTML=ok?"⭐ ถูกต้อง<small>+1 คะแนน</small>":"❌ ไม่ถูกต้อง<small>0 คะแนน</small>";
+  $("#feedback").classList.add("show");setTimeout(()=>$("#feedback").classList.remove("show"),800);
+}
+function celebrate(){
+  const box=$("#effects"),icons=["🎉","⭐","✨","🎊","💫"];
+  for(let i=0;i<30;i++){const e=document.createElement("span");e.className="fx";e.textContent=icons[i%icons.length];e.style.setProperty("--x",`${(Math.random()-.5)*78}vw`);e.style.setProperty("--y",`${Math.random()*8}vh`);e.style.animationDelay=`${Math.random()*.13}s`;box.appendChild(e);setTimeout(()=>e.remove(),1150)}
+}
+/* ทุกด่านใช้ "ชี้ค้าง" 0.5 วินาทีเพื่อเลือกคำตอบ จึงไม่ต้องบีบนิ้ว */
+function onHands(r){
+  ctx.clearRect(0,0,innerWidth,innerHeight);
+  const lm=r.multiHandLandmarks?.[0];
+  if(!lm){resetHoverHold();return}
+  const p=lm.map(v=>({x:(1-v.x)*innerWidth,y:v.y*innerHeight}));
+  smooth=smooth?p.map((v,i)=>({x:smooth[i].x*.5+v.x*.5,y:smooth[i].y*.5+v.y*.5})):p;
+  draw(smooth);hoverHold(smooth);
+}
+function encyclopediaCard(x,unlockedCard){
+  const hasImage=Boolean(x.image);
+  const art=hasImage?`<img class="bookThumb" src="${x.image}" alt="ภาพประกอบ ${x.idiom}">`:`<div class="icon">${unlockedCard?"📖":"🔒"}</div>`;
+  return `<div class="book ${unlockedCard?"":"lock"}" data-id="${x.id}">${art}<b>${unlockedCard?x.idiom:"คำพังเพยที่ยังไม่ปลดล็อก"}</b><p>${unlockedCard?x.meaning:"ตอบคำถามให้ถูกเพื่อปลดล็อกภาพและความหมาย"}</p></div>`;
+}
+function renderQuickLibrary(){
+  $("#quickCount").textContent=`ปลดล็อกแล้ว ${unlocked.length}/${DATA.length} คำ`;
+  const list=DATA.filter(x=>unlocked.includes(x.id));
+  $("#quickBooks").innerHTML=list.length?list.map(x=>encyclopediaCard(x,true)).join(""):`<p>ยังไม่มีคำที่ปลดล็อก ลองตอบคำถามให้ถูกก่อนนะคะ</p>`;
+  $$("#quickBooks .book").forEach(x=>x.onclick=()=>openDetail(+x.dataset.id));
+  const head=$("#quickLibrary .quicklibhead");
+  if(!$("#quickReset")){const b=document.createElement("button");b.id="quickReset";b.className="btn resetBtn";b.type="button";b.textContent="🗑️ ล้างสารานุกรม";b.onclick=resetEncyclopedia;head.insertBefore(b,$("#closeQuickLibrary"));}
+}
+function renderBooks(f=""){
+  f=f.trim().toLowerCase();$("#count").textContent=`สะสมแล้ว ${unlocked.length}/${DATA.length} คำ`;
+  const list=DATA.filter(x=>!f||(x.idiom+x.meaning).toLowerCase().includes(f));
+  $("#books").innerHTML=list.map(x=>encyclopediaCard(x,unlocked.includes(x.id))).join("");
+  $$("#books .book:not(.lock)").forEach(x=>x.onclick=()=>openDetail(+x.dataset.id));
+}
+function resetEncyclopedia(){
+  if(!confirm("ต้องการล้างคำที่ปลดล็อก คะแนน ดาว และความคืบหน้าทั้งหมดใช่หรือไม่?"))return;
+  localStorage.removeItem("idiomUnlocked");localStorage.removeItem("idiomProgress");
+  unlocked=[];prog={unlockedLevel:1,stars:{}};
+  const search=$("#search");if(search)search.value="";
+  $("#quickLibrary").classList.add("hidden");renderBooks();renderLevels();
+  alert("ล้างสารานุกรมและเริ่มความคืบหน้าใหม่เรียบร้อยแล้ว");show("#cover");
+}
+$("#resetGame").onclick=resetEncyclopedia;
+renderLevels();
+</script>
+</body></html>
