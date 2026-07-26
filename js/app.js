@@ -23,6 +23,33 @@ let active = "all";
 
 
 /* =====================================
+   สีและไอคอนประจำวิชา
+===================================== */
+
+const SUBJECT_STYLES = {
+  "ภาษาไทย": { icon: "📖", color: "#8247df", color2: "#a667ef" },
+  "คณิตศาสตร์": { icon: "🔢", color: "#ff7a00", color2: "#ffa51f" },
+  "วิทยาศาสตร์": { icon: "🧪", color: "#39ad4a", color2: "#69ca69" },
+  "ภาษาอังกฤษ": { icon: "🔤", color: "#2878ee", color2: "#48a6f7" },
+  "สังคมศึกษา": { icon: "🌍", color: "#df3f91", color2: "#f064ae" },
+  "ศิลปะ": { icon: "🎨", color: "#08a8b2", color2: "#31c8ce" },
+  "วิทยาการคำนวณ": { icon: "💻", color: "#5c55d9", color2: "#8580ee" },
+  "สุขศึกษา": { icon: "💗", color: "#e95475", color2: "#f5819b" },
+  "ปฐมวัย": { icon: "🧸", color: "#ee8b32", color2: "#f5b257" },
+  "เกม": { icon: "🎮", color: "#6c3be8", color2: "#8970ef" },
+  "all": { icon: "✨", color: "#6c3be8", color2: "#5269f6" }
+};
+
+function subjectStyle(category = "เกม") {
+  return SUBJECT_STYLES[category] || {
+    icon: "🎯",
+    color: "#6c3be8",
+    color2: "#4f7bf4"
+  };
+}
+
+
+/* =====================================
    ฟังก์ชันพื้นฐาน
 ===================================== */
 
@@ -185,48 +212,56 @@ async function loadGames() {
 ===================================== */
 
 function renderChips() {
+  const visibleGames = games.filter(
+    game => !isHidden(game.status)
+  );
+
   const categories = [
     "all",
     ...new Set(
-      games
-        .filter(game => !isHidden(game.status))
-        .map(game => game.category)
+      visibleGames
+        .map(game => game.category || "เกม")
         .filter(Boolean)
     )
   ];
 
   chipsBox.innerHTML = categories
     .map(categoryName => {
-      const label =
-        categoryName === "all"
-          ? "ทั้งหมด"
-          : safeText(categoryName);
-
-      const activeClass =
-        categoryName === active
-          ? "active"
-          : "";
+      const style = subjectStyle(categoryName);
+      const label = categoryName === "all"
+        ? "เกมทั้งหมด"
+        : categoryName;
+      const count = categoryName === "all"
+        ? visibleGames.length
+        : visibleGames.filter(
+            game => (game.category || "เกม") === categoryName
+          ).length;
 
       return `
         <button
           type="button"
-          class="chip ${activeClass}"
+          class="subject-tab ${categoryName === active ? "active" : ""}"
           data-c="${safeText(categoryName)}"
+          style="--subject:${style.color};--subject2:${style.color2}"
         >
-          ${label}
+          <span class="subject-icon">${style.icon}</span>
+          <span class="subject-copy">
+            <span class="subject-name">${safeText(label)}</span>
+            <span class="subject-count">${count} เกม</span>
+          </span>
         </button>
       `;
     })
     .join("");
 
-  document
-    .querySelectorAll(".chip")
+  document.querySelectorAll(".subject-tab")
     .forEach(button => {
       button.onclick = () => {
         active = button.dataset.c;
-
         renderChips();
         render();
+        document.getElementById("gamesSection")
+          ?.scrollIntoView({ behavior: "smooth", block: "start" });
       };
     });
 }
@@ -246,35 +281,28 @@ function render() {
   );
 
   data = data.filter(game => {
+    const category = game.category || "เกม";
     const matchesCategory =
-      active === "all" ||
-      game.category === active;
+      active === "all" || category === active;
 
     const searchText = `
       ${game.title || ""}
       ${game.description || ""}
-      ${game.category || ""}
+      ${category}
     `.toLowerCase();
 
-    return (
-      matchesCategory &&
-      searchText.includes(key)
-    );
+    return matchesCategory && searchText.includes(key);
   });
 
-  countText.textContent =
-    `${data.length} เกม`;
-
-  empty.classList.toggle(
-    "hidden",
-    data.length > 0
-  );
+  countText.textContent = `${data.length} เกม`;
+  empty.classList.toggle("hidden", data.length > 0);
 
   grid.innerHTML = data
     .map(game => {
       const soon = isSoon(game.status);
       const url = gameUrl(game);
-
+      const category = game.category || "เกม";
+      const style = subjectStyle(category);
       const playHref = soon
         ? "#"
         : `game-player.html?url=${encodeURIComponent(url)}&title=${encodeURIComponent(game.title || "เกม")}`;
@@ -292,72 +320,53 @@ function render() {
         : "";
 
       return `
-        <article class="game-card">
-
+        <article
+          class="game-card"
+          style="--subject:${style.color};--subject2:${style.color2}"
+        >
           <div class="cover">
-
             <img
               src="${safeText(coverOf(game))}"
-              alt="${safeText(game.title)}"
-              onerror="
-                this.parentElement.classList.add('no-img');
-                this.remove();
-              "
+              alt="${safeText(game.title || "เกม")}"
+              loading="lazy"
+              onerror="this.parentElement.classList.add('no-img');this.remove();"
             >
-
             <span>🎮</span>
-
           </div>
 
           <div class="game-info">
+            <span class="subject-pill">${safeText(category)}</span>
 
-            <h3>
-              ${safeText(game.title || "ไม่มีชื่อเกม")}
-            </h3>
+            <h3>${safeText(game.title || "ไม่มีชื่อเกม")}</h3>
 
-            <p>
-              ${safeText(
-                truncate(game.description || "", 72)
-              )}
-            </p>
+            <p>${safeText(truncate(game.description || "", 92))}</p>
 
             <div class="card-bottom">
-
-              <span class="tag">
-                ${safeText(game.category || "เกม")}
-              </span>
-
-              <div class="game-buttons">
-
+              <div class="game-buttons ${promptButton ? "" : "single"}">
                 ${promptButton}
-
                 <a
                   class="play ${soon ? "soon" : ""}"
                   href="${safeText(playHref)}"
-                  ${soon ? 'aria-disabled="true"' : ""}
+                  ${soon ? 'aria-disabled="true" onclick="return false"' : ""}
                 >
                   ${soon ? "เร็ว ๆ นี้" : "▶ เล่นเกม"}
                 </a>
-
               </div>
-
             </div>
-
           </div>
-
         </article>
       `;
     })
     .join("");
 
-  document
-    .querySelectorAll(".prompt-button")
+  document.querySelectorAll(".prompt-button")
     .forEach(button => {
       button.addEventListener("click", () => {
         openPrompt(button.dataset.gameId);
       });
     });
 }
+
 
 search.addEventListener("input", render);
 
