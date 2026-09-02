@@ -1090,6 +1090,711 @@ body:has(#m4.active){overflow:hidden!important}
 }
 </style>
 
+
+<style id="m5-summary-redesign-final">
+/* ===== M5 only ===== */
+#m5{
+  padding:0!important;
+  height:calc(100dvh - 72px)!important;
+  min-height:0!important;
+  overflow:hidden!important;
+}
+#m5.active{display:block!important}
+body:has(#m5.active){overflow:hidden!important}
+#m5 .m5-shell{
+  height:100%;
+  display:grid;
+  grid-template-rows:auto minmax(0,1fr);
+  gap:7px;
+  padding:8px 14px 12px;
+  box-sizing:border-box;
+}
+#m5 .m5-head{
+  min-height:50px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+#m5 .m5-title{
+  color:#fff;
+  font-size:clamp(25px,2vw,36px);
+  font-weight:1000;
+  text-shadow:0 2px 10px rgba(0,0,0,.28);
+}
+#m5 .m5-title span{color:#b4eaff}
+#m5 .m5-score{
+  flex:none;
+  padding:10px 18px;
+  border-radius:20px;
+  background:#082d5d;
+  border:2px solid #258cff;
+  color:#fff;
+  font-weight:1000;
+  font-size:clamp(15px,1.1vw,19px);
+}
+#m5 .m5-stage{
+  position:relative;
+  min-height:0!important;
+  height:100%!important;
+  overflow:hidden!important;
+  border-radius:25px;
+  background:url("assets/78_lab_emergency.jpg") center/cover no-repeat!important;
+  border:1px solid rgba(80,207,255,.52);
+  isolation:isolate;
+}
+#m5 .m5-dim{
+  position:absolute;inset:0;z-index:1;
+  background:linear-gradient(90deg,rgba(2,29,55,.12),rgba(255,255,255,.04),rgba(3,31,57,.08));
+  pointer-events:none;
+}
+#m5 .camera{z-index:0!important}
+#m5 .m5-instruction{
+  position:absolute;
+  z-index:8;
+  top:2.5%;
+  left:1.5%;
+  padding:11px 22px;
+  border-radius:18px;
+  background:linear-gradient(180deg,#123d79,#092a58);
+  border:1px solid #4bd4ff;
+  color:#fff;
+  font-size:clamp(16px,1.25vw,21px);
+  font-weight:1000;
+  box-shadow:0 8px 22px rgba(0,0,0,.25);
+}
+#m5 .m5-case-panel{
+  position:absolute;
+  z-index:6;
+  left:1.6%;
+  top:12%;
+  bottom:3%;
+  width:31%;
+  display:grid;
+  grid-template-rows:45% auto minmax(0,1fr);
+  gap:10px;
+}
+#m5 .m5-patient-frame{
+  border-radius:26px;
+  overflow:hidden;
+  background:linear-gradient(160deg,rgba(9,49,84,.95),rgba(11,35,62,.96));
+  border:2px solid #56dcff;
+  display:grid;
+  place-items:center;
+  box-shadow:0 14px 28px rgba(0,0,0,.25);
+}
+#m5 .m5-patient-frame img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+#m5 .m5-case-text{
+  padding:13px 16px;
+  border-radius:20px;
+  background:rgba(255,255,255,.96);
+  border:2px solid #79b9ff;
+  color:#0a2a63;
+  box-shadow:0 12px 24px rgba(0,0,0,.18);
+}
+#m5 .m5-case-kicker{font-size:14px;font-weight:1000;color:#35619a}
+#m5 .m5-case-text h3{
+  margin:4px 0 7px!important;
+  font-size:clamp(18px,1.45vw,26px)!important;
+  color:#08265e!important;
+}
+#m5 .m5-case-text p{
+  margin:0!important;
+  font-size:clamp(14px,1vw,18px)!important;
+  line-height:1.35!important;
+  font-weight:850!important;
+}
+#m5 .m5-feedback-card{
+  position:static!important;
+  transform:none!important;
+  min-height:84px;
+  margin:0!important;
+  padding:14px 16px!important;
+  border-radius:20px!important;
+  font-size:clamp(15px,1.15vw,20px)!important;
+  line-height:1.25!important;
+  align-self:end;
+}
+#m5 .m5-feedback-card.good{
+  background:linear-gradient(135deg,#ddffe7,#f5fff8)!important;
+  border:3px solid #37c961!important;
+  color:#147037!important;
+  box-shadow:0 0 25px rgba(64,220,99,.28)!important;
+}
+#m5 .m5-feedback-card.bad{
+  background:linear-gradient(135deg,#fff0ef,#fff8f7)!important;
+  border:3px solid #ee6258!important;
+  color:#a52e27!important;
+  box-shadow:0 0 25px rgba(238,98,88,.24)!important;
+}
+
+#m5 .m5-diagnose-panel{
+  position:absolute;
+  z-index:6;
+  right:1.6%;
+  top:12%;
+  bottom:3%;
+  width:64%;
+  padding:18px 20px;
+  box-sizing:border-box;
+  display:grid;
+  grid-template-rows:auto minmax(0,1fr) auto;
+  gap:14px;
+  border-radius:26px;
+  background:rgba(249,252,255,.97);
+  border:2px solid #7ab9ff;
+  box-shadow:0 14px 32px rgba(0,0,0,.22);
+}
+#m5 .m5-question-wrap{
+  display:flex;align-items:center;gap:14px;
+  color:#0b2866;
+}
+#m5 .m5-clipboard{font-size:54px}
+#m5 .m5-question-wrap h2{
+  margin:0!important;
+  font-size:clamp(25px,2vw,36px)!important;
+  color:#0a2865!important;
+}
+#m5 .m5-question-wrap p{
+  margin:5px 0 0!important;
+  font-size:clamp(14px,1.05vw,18px)!important;
+  font-weight:850;
+}
+#m5 .m5-options{
+  display:grid!important;
+  grid-template-columns:1fr 1fr!important;
+  grid-template-rows:1fr 1fr!important;
+  gap:14px!important;
+  min-height:0!important;
+}
+#m5 .m5-options .diag-option{
+  position:relative!important;
+  width:auto!important;
+  height:auto!important;
+  min-height:0!important;
+  padding:12px 18px!important;
+  border-radius:22px!important;
+  display:grid!important;
+  grid-template-columns:68px 92px 1fr!important;
+  align-items:center!important;
+  gap:15px!important;
+  text-align:left!important;
+  background:linear-gradient(180deg,#fff,#eef6ff)!important;
+  border:3px solid #8bbcff!important;
+  box-shadow:0 8px 18px rgba(32,85,138,.12)!important;
+  color:#09295f!important;
+  cursor:pointer!important;
+}
+#m5 .m5-options .diag-option::before{
+  content:attr(data-letter);
+  width:58px;height:58px;
+  display:grid;place-items:center;
+  border-radius:50%;
+  background:#1670e8;
+  color:#fff;
+  font-size:30px;
+  font-weight:1000;
+  box-shadow:0 5px 12px rgba(0,0,0,.18);
+}
+#m5 .m5-options .diag-option img{
+  width:82px!important;
+  height:82px!important;
+  object-fit:contain!important;
+}
+#m5 .m5-options .diag-option span{
+  font-size:clamp(18px,1.4vw,25px)!important;
+  font-weight:1000!important;
+}
+#m5 .m5-options .diag-option.correct{
+  border-color:#3bd362!important;
+  background:linear-gradient(180deg,#effff3,#dbffe6)!important;
+  box-shadow:0 0 26px rgba(54,218,101,.45)!important;
+}
+#m5 .m5-options .diag-option.correct::after{
+  content:"✓";
+  position:absolute;right:12px;top:10px;
+  width:42px;height:42px;display:grid;place-items:center;
+  border-radius:50%;background:#39bf56;color:#fff;
+  border:3px solid #fff;font-size:26px;font-weight:1000;
+}
+#m5 .m5-options .diag-option.wrong{
+  border-color:#ef554d!important;
+  background:linear-gradient(180deg,#fff5f4,#ffe7e5)!important;
+  box-shadow:0 0 24px rgba(239,85,77,.38)!important;
+}
+#m5 .m5-options .diag-option.wrong::after{
+  content:"✕";
+  position:absolute;right:12px;top:10px;
+  width:42px;height:42px;display:grid;place-items:center;
+  border-radius:50%;background:#db4c45;color:#fff;
+  border:3px solid #fff;font-size:24px;font-weight:1000;
+}
+#m5 .m5-reason{
+  padding:12px 16px;
+  border-radius:18px;
+  background:#edf5ff;
+  border:2px solid #acd0ff;
+  color:#123c76;
+  font-size:clamp(14px,1.08vw,18px);
+  font-weight:900;
+  text-align:center;
+}
+
+/* ===== Reward / overall summary only ===== */
+#reward{
+  padding:12px!important;
+  height:calc(100dvh - 72px)!important;
+  min-height:0!important;
+  overflow:hidden!important;
+}
+#reward.active{display:block!important}
+body:has(#reward.active){overflow:hidden!important}
+#reward .reward-clean{
+  width:min(1180px,94vw);
+  height:100%;
+  margin:0 auto;
+  padding:22px 28px;
+  box-sizing:border-box;
+  border-radius:28px;
+  background:linear-gradient(160deg,rgba(7,35,72,.97),rgba(7,27,56,.96)),url("assets/79_lab_reward.jpg") center/cover;
+  border:2px solid rgba(91,209,255,.55);
+  box-shadow:0 20px 45px rgba(0,0,0,.32);
+  color:#fff;
+  text-align:center;
+  display:grid;
+  grid-template-rows:auto auto auto auto auto auto;
+  align-content:center;
+  gap:14px;
+}
+#reward .reward-kicker{color:#8feaff;font-weight:1000;letter-spacing:2px}
+#reward h2{font-size:clamp(34px,3vw,52px);margin:0!important}
+#reward .reward-sub{font-size:clamp(16px,1.2vw,20px);margin:0}
+#reward .reward-overview{
+  display:grid;
+  grid-template-columns:150px repeat(4,1fr);
+  gap:12px;
+  align-items:stretch;
+}
+#reward .reward-rank{
+  grid-row:span 2;
+  display:grid;place-items:center;
+  min-height:150px;
+  border-radius:28px;
+  background:radial-gradient(circle at 50% 35%,#ffd65b,#c77a00 70%);
+  border:4px solid #ffe397;
+  color:#4d2600;
+  font-size:80px;
+  font-weight:1000;
+  text-shadow:0 3px 0 #fff3bd;
+  box-shadow:0 0 28px rgba(255,194,40,.35);
+}
+#reward .reward-stat{
+  min-height:88px;
+  padding:13px 10px;
+  border-radius:18px;
+  background:rgba(17,71,122,.72);
+  border:1px solid #56caff;
+  display:grid;
+  place-items:center;
+}
+#reward .reward-stat span{font-size:14px;color:#bfeeff;font-weight:900}
+#reward .reward-stat b{font-size:clamp(24px,2vw,34px)}
+#reward .reward-stat small{font-size:13px;color:#d9f6ff}
+#reward .reward-stat.wide{grid-column:2/6}
+#reward .reward-missions{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:9px;
+}
+#reward .reward-mission-card{
+  padding:10px 8px;
+  border-radius:15px;
+  background:rgba(11,57,101,.82);
+  border:1px solid rgba(99,211,255,.48);
+  font-weight:900;
+}
+#reward .reward-mission-card b{display:block;font-size:20px;margin-top:4px}
+#reward .reward-actions{display:flex;justify-content:center;gap:18px}
+#reward .reward-actions .btn{min-width:210px}
+#reward .reward-message{
+  padding:10px 16px;
+  border-radius:16px;
+  background:rgba(7,57,81,.88);
+  border:1px solid #49d8ff;
+  font-size:clamp(14px,1.05vw,18px);
+  font-weight:900;
+}
+#reward .reward-a01,#reward .parts,#reward .secret{display:none!important}
+
+@media(max-height:820px){
+  #m5{height:calc(100dvh - 66px)!important}
+  #m5 .m5-head{min-height:42px}
+  #m5 .m5-case-panel,#m5 .m5-diagnose-panel{top:10%;bottom:2%}
+  #m5 .m5-case-panel{grid-template-rows:42% auto minmax(0,1fr)}
+  #m5 .m5-options .diag-option{grid-template-columns:52px 68px 1fr!important;padding:8px 12px!important}
+  #m5 .m5-options .diag-option::before{width:46px;height:46px;font-size:23px}
+  #m5 .m5-options .diag-option img{width:62px!important;height:62px!important}
+  #m5 .m5-question-wrap h2{font-size:24px!important}
+  #reward{height:calc(100dvh - 66px)!important;padding:8px!important}
+  #reward .reward-clean{padding:15px 20px;gap:9px}
+  #reward .reward-rank{min-height:120px;font-size:66px}
+  #reward .reward-stat{min-height:70px;padding:8px}
+}
+</style>
+
+
+<style id="m5-refined-layout-final">
+/* Make the patient illustration fully visible */
+#m5 .m5-case-panel{
+  grid-template-rows:58% auto minmax(0,1fr)!important;
+}
+#m5 .m5-patient-frame{
+  padding:8px!important;
+  background:linear-gradient(160deg,rgba(9,49,84,.96),rgba(11,35,62,.96))!important;
+}
+#m5 .m5-patient-frame img{
+  width:100%!important;
+  height:100%!important;
+  object-fit:contain!important;
+  object-position:center bottom!important;
+  transform:none!important;
+  max-height:none!important;
+}
+
+/* Place the question clearly above the answers */
+#m5 .m5-diagnose-panel{
+  grid-template-rows:auto minmax(0,1fr) auto!important;
+}
+#m5 .m5-question-wrap{
+  padding:8px 10px 4px!important;
+  align-items:flex-start!important;
+}
+#m5 .m5-case-question{
+  display:block;
+  margin-bottom:5px;
+  color:#0a2865;
+  font-size:clamp(21px,1.65vw,29px);
+  font-weight:1000;
+  line-height:1.18;
+}
+#m5 .m5-question-wrap h2{
+  font-size:clamp(19px,1.35vw,24px)!important;
+  margin:0!important;
+}
+#m5 .m5-question-wrap p{
+  margin:3px 0 0!important;
+  color:#345b8f;
+}
+#m5 .m5-options{
+  margin-top:2px!important;
+}
+
+/* Slightly more polished card spacing */
+#m5 .m5-options .diag-option{
+  border-radius:20px!important;
+  padding:10px 16px!important;
+}
+#m5 .m5-options .diag-option img{
+  width:76px!important;
+  height:76px!important;
+}
+#m5 .m5-options .diag-option span{
+  font-size:clamp(17px,1.25vw,23px)!important;
+}
+
+/* Compact notebook screens without cutting the patient */
+@media(max-height:820px){
+  #m5 .m5-case-panel{
+    grid-template-rows:55% auto minmax(0,1fr)!important;
+  }
+  #m5 .m5-patient-frame img{
+    object-position:center bottom!important;
+  }
+  #m5 .m5-case-question{
+    font-size:20px!important;
+  }
+}
+</style>
+
+
+<style id="m5-final-clean-layout">
+#m5 .m5-case-panel{
+  top:11%!important;
+  bottom:2.5%!important;
+  width:31.5%!important;
+  display:grid!important;
+  grid-template-rows:auto minmax(0,1fr) auto!important;
+  gap:10px!important;
+}
+
+#m5 .m5-case-text-top{
+  padding:14px 18px!important;
+  border-radius:20px!important;
+  background:rgba(255,255,255,.97)!important;
+  border:2px solid #7dbbff!important;
+  color:#0b2a63!important;
+  box-shadow:0 10px 22px rgba(0,0,0,.16)!important;
+}
+#m5 .m5-case-kicker{
+  font-size:14px!important;
+  color:#35639a!important;
+  font-weight:1000!important;
+}
+#m5 .m5-case-text-top h3{
+  margin:5px 0 5px!important;
+  color:#08265e!important;
+  font-size:clamp(19px,1.5vw,27px)!important;
+  line-height:1.18!important;
+}
+#m5 .m5-case-text-top p{
+  margin:0 0 7px!important;
+  color:#294e83!important;
+  font-size:clamp(14px,1vw,17px)!important;
+  font-weight:800!important;
+}
+#m5 .m5-case-question-main{
+  margin-top:6px!important;
+  padding-top:8px!important;
+  border-top:1px solid rgba(78,135,190,.25)!important;
+  color:#0a2865!important;
+  font-size:clamp(18px,1.3vw,23px)!important;
+  font-weight:1000!important;
+}
+
+#m5 .m5-patient-frame{
+  min-height:0!important;
+  padding:0!important;
+  overflow:hidden!important;
+  border-radius:24px!important;
+  background:linear-gradient(160deg,rgba(9,49,84,.97),rgba(11,35,62,.97))!important;
+  border:2px solid #56dcff!important;
+  display:grid!important;
+  place-items:center!important;
+}
+#m5 .m5-patient-frame img{
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  object-fit:contain!important;
+  object-position:center bottom!important;
+  max-width:none!important;
+  max-height:none!important;
+  transform:none!important;
+}
+
+/* Right side: answers only, no redundant question header */
+#m5 .m5-diagnose-panel{
+  top:11%!important;
+  bottom:2.5%!important;
+  width:64%!important;
+  padding:18px 20px!important;
+  display:grid!important;
+  grid-template-rows:minmax(0,1fr) auto!important;
+  gap:14px!important;
+}
+#m5 .m5-options{
+  height:100%!important;
+  display:grid!important;
+  grid-template-columns:1fr 1fr!important;
+  grid-template-rows:1fr 1fr!important;
+  gap:14px!important;
+}
+#m5 .m5-options .diag-option{
+  min-height:0!important;
+  height:auto!important;
+  padding:12px 18px!important;
+}
+
+/* Remove any legacy right-side headings if old CSS/JS tries to show them */
+#m5 .m5-question-wrap,
+#m5 #m5QuestionTitle{
+  display:none!important;
+}
+
+/* Feedback remains in left column and should never cover answer cards */
+#m5 .m5-feedback-card{
+  position:static!important;
+  min-height:72px!important;
+  max-height:110px!important;
+  overflow:hidden!important;
+}
+
+@media(max-height:820px){
+  #m5 .m5-case-panel{
+    grid-template-rows:auto minmax(0,1fr) auto!important;
+  }
+  #m5 .m5-case-text-top{
+    padding:10px 14px!important;
+  }
+  #m5 .m5-case-text-top h3{
+    font-size:19px!important;
+  }
+  #m5 .m5-case-question-main{
+    font-size:17px!important;
+  }
+  #m5 .m5-feedback-card{
+    min-height:58px!important;
+  }
+}
+</style>
+
+
+<style id="m5-question-top-final">
+#m5 .m5-patient-column{
+  position:absolute;
+  z-index:6;
+  left:1.6%;
+  top:11%;
+  bottom:2.5%;
+  width:31.5%;
+  display:grid;
+  grid-template-rows:minmax(0,1fr) auto;
+  gap:10px;
+}
+#m5 .m5-patient-frame{
+  min-height:0!important;
+  padding:0!important;
+  overflow:hidden!important;
+  border-radius:26px!important;
+  background:linear-gradient(160deg,rgba(9,49,84,.97),rgba(11,35,62,.97))!important;
+  border:2px solid #56dcff!important;
+  display:grid!important;
+  place-items:center!important;
+  box-shadow:0 14px 28px rgba(0,0,0,.25)!important;
+}
+#m5 .m5-patient-frame img{
+  width:100%!important;
+  height:100%!important;
+  object-fit:contain!important;
+  object-position:center bottom!important;
+  max-width:none!important;
+  max-height:none!important;
+  transform:none!important;
+}
+
+#m5 .m5-diagnose-panel{
+  position:absolute;
+  z-index:6;
+  right:1.6%;
+  top:11%;
+  bottom:2.5%;
+  width:64%;
+  padding:16px 20px 18px!important;
+  box-sizing:border-box;
+  display:grid!important;
+  grid-template-rows:auto minmax(0,1fr) auto!important;
+  gap:12px!important;
+  border-radius:26px!important;
+  background:rgba(249,252,255,.97)!important;
+  border:2px solid #7ab9ff!important;
+  box-shadow:0 14px 32px rgba(0,0,0,.22)!important;
+}
+#m5 .m5-question-card{
+  padding:4px 10px 12px;
+  border-bottom:2px solid #b9d7ff;
+  color:#0a2865;
+  text-align:left;
+}
+#m5 .m5-question-kicker{
+  color:#35639a;
+  font-size:14px;
+  font-weight:1000;
+  margin-bottom:4px;
+}
+#m5 .m5-question-card h2{
+  margin:0 0 4px!important;
+  font-size:clamp(22px,1.7vw,30px)!important;
+  color:#08265e!important;
+  line-height:1.18!important;
+}
+#m5 .m5-question-card p{
+  margin:0 0 7px!important;
+  color:#294e83!important;
+  font-size:clamp(14px,1vw,17px)!important;
+  font-weight:800!important;
+  line-height:1.3!important;
+}
+#m5 .m5-question-main{
+  margin-top:4px;
+  color:#0a2865;
+  font-size:clamp(19px,1.35vw,24px);
+  font-weight:1000;
+}
+#m5 .m5-options{
+  display:grid!important;
+  grid-template-columns:1fr 1fr!important;
+  grid-template-rows:1fr 1fr!important;
+  gap:14px!important;
+  min-height:0!important;
+}
+#m5 .m5-options .diag-option{
+  min-height:0!important;
+  height:auto!important;
+  padding:12px 18px!important;
+}
+#m5 .m5-feedback-card{
+  position:static!important;
+  transform:none!important;
+  min-height:72px!important;
+  max-height:110px!important;
+  overflow:hidden!important;
+}
+#m5 .m5-question-wrap,
+#m5 #m5QuestionTitle{
+  display:none!important;
+}
+
+@media(max-height:820px){
+  #m5 .m5-patient-column{top:10%;bottom:2%}
+  #m5 .m5-diagnose-panel{top:10%;bottom:2%;padding:12px 16px 14px!important}
+  #m5 .m5-question-card h2{font-size:21px!important}
+  #m5 .m5-question-main{font-size:18px!important}
+  #m5 .m5-question-card p{font-size:13px!important}
+  #m5 .m5-feedback-card{min-height:58px!important}
+}
+</style>
+
+
+<style id="m5-large-single-question-final">
+#m5 .m5-question-card{
+  padding:8px 12px 14px!important;
+}
+#m5 .m5-question-kicker{
+  font-size:clamp(15px,1.05vw,18px)!important;
+  margin-bottom:5px!important;
+}
+#m5 .m5-question-card h2{
+  margin:0!important;
+  font-size:clamp(28px,2.15vw,38px)!important;
+  line-height:1.15!important;
+  font-weight:1000!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  color:#08265e!important;
+}
+#m5 .m5-question-card p{
+  margin:4px 0 0!important;
+  font-size:clamp(15px,1.05vw,18px)!important;
+  line-height:1.25!important;
+  color:#315684!important;
+  font-weight:800!important;
+}
+#m5 .m5-question-main,
+#m5 #m5CaseQuestion{
+  display:none!important;
+}
+@media(max-width:1150px){
+  #m5 .m5-question-card h2{
+    font-size:clamp(23px,2.5vw,31px)!important;
+  }
+}
+</style>
+
 </head>
 <body>
 <div class="app">
@@ -1201,15 +1906,81 @@ body:has(#m4.active){overflow:hidden!important}
   </div>
 </section>
 
-<section id="m5" class="screen"><div class="mission-wrap"><div class="mission-head"><div class="mission-title">🏥 ด่าน 5 — DOCTOR EMERGENCY</div><div class="mission-meta"><span class="chip" id="m5score">ช่วยคนไข้ 0/5</span></div></div><div class="game-stage emergency">
-<video id="camera5" class="camera" autoplay playsinline muted></video>
-<div class="overlay-dim"></div>
-<div class="m5-hand-layer universal-hand-layer">
-  <canvas id="handCanvas5"></canvas>
-  <div id="handTip5" class="universal-hand-tip"><span></span></div>
-</div><div class="clue">🚨 วิเคราะห์อาการ แล้วเลือกอวัยวะที่ควรตรวจ</div><div class="doctor-layout"><div class="patient"><img id="patientImg" src="assets/40_patient_headache.png"></div><div class="diagnose"><h3 id="patientTitle">คนไข้มีอาการ...</h3><p id="patientText" style="font-size:21px;line-height:1.55"></p><div class="diag-options" id="diagOptions"></div></div></div><div class="feedback" id="m5feedback"></div></div><div class="mission-footer"><button class="btn ghost" onclick="go('map')">← แผนที่</button></div></div></section>
 
-  <section id="reward" class="screen"><div class="reward-stage"><div class="kicker">MISSION COMPLETE</div><h2>🎉 A-01 RESTORED — 100%</h2><p style="font-size:20px">คุณกู้คืนชิ้นส่วนร่างกายครบทั้ง 5 ด่านแล้ว!</p><img class="reward-a01" src="assets/16_A01_normal.png"><div class="parts"><div class="part"><img src="assets/02_heart.png"></div><div class="part"><img src="assets/03_lungs.png"></div><div class="part"><img src="assets/04_stomach.png"></div><div class="part"><img src="assets/15_skeleton.png"></div><div class="part"><img src="assets/01_brain.png"></div></div><button class="btn gold" onclick="openSecret()">🎁 เปิดรางวัลพิเศษ</button><div class="secret" id="secretBox"><img src="assets/56_treasure_box_open.png" style="width:220px;max-width:60%"><h3 style="font-size:30px">🏅 นักสำรวจกายวิภาค + 🔑 SECRET KEY</h3><p>ปลดล็อกภารกิจลับ “ย่อส่วนเข้าสู่ร่างกาย”</p><button class="btn pink" onclick="toast('Secret Mission พร้อมแล้ว! ฉบับนี้เป็นรางวัลปลดล็อกสำหรับต่อยอดด่านลับ')">🩸 เข้า Secret Mission</button></div></div></section>
+
+
+<section id="m5" class="screen">
+  <div class="m5-shell">
+    <div class="m5-head">
+      <div class="m5-title">🏥 ด่าน 5 — <span>DOCTOR EMERGENCY</span></div>
+      <div class="m5-score" id="m5score">คะแนน 0/5 • เคส 1/5</div>
+    </div>
+
+    <div class="m5-stage game-stage emergency">
+      <video id="camera5" class="camera" autoplay playsinline muted></video>
+      <div class="m5-dim"></div>
+
+      <div class="m5-hand-layer universal-hand-layer">
+        <canvas id="handCanvas5"></canvas>
+        <div id="handTip5" class="universal-hand-tip"><span></span></div>
+      </div>
+
+      <div class="m5-instruction">🚨 วิเคราะห์อาการ แล้วเลือกอวัยวะที่ควรตรวจ</div>
+
+      <aside class="m5-patient-column">
+        <div class="m5-patient-frame">
+          <img id="patientImg" src="assets/40_patient_headache.png" alt="คนไข้">
+        </div>
+        <div class="feedback m5-feedback-card" id="m5feedback"></div>
+      </aside>
+
+      <main class="m5-diagnose-panel">
+        <div class="m5-question-card">
+          <div class="m5-question-kicker">📋 เคสนี้มีอาการ...</div>
+          <h2 id="patientTitle">คนไข้มีอาการ...</h2>
+          <p id="patientText"></p>
+          
+        </div>
+
+        <div class="diag-options m5-options" id="diagOptions"></div>
+
+        <div class="m5-reason">
+          💡 คิดให้ดี... เลือกอวัยวะที่เกี่ยวข้องกับอาการมากที่สุด
+        </div>
+      </main>
+    </div>
+  </div>
+</section>
+
+
+
+<section id="reward" class="screen">
+  <div class="reward-clean">
+    <div class="reward-kicker">MISSION COMPLETE</div>
+    <h2>🎉 A-01 RESTORED — 100%</h2>
+    <p class="reward-sub">คุณผ่านภารกิจครบทั้ง 5 ด่านแล้ว!</p>
+
+    <div class="reward-overview">
+      <div class="reward-rank" id="overallRank">S</div>
+      <div class="reward-stat"><span>คะแนนรวม</span><b id="overallTotal">0/31</b><small id="overallPercent">0%</small></div>
+      <div class="reward-stat"><span>ตอบถูก</span><b id="overallCorrect">0</b><small>ข้อ</small></div>
+      <div class="reward-stat"><span>ตอบผิด</span><b id="overallWrong">0</b><small>ข้อ</small></div>
+      <div class="reward-stat"><span>ผ่านภารกิจ</span><b id="overallCompleted">5/5</b><small>ด่าน</small></div>
+      <div class="reward-stat wide"><span>ระดับผลลัพธ์</span><b id="overallStars">⭐⭐⭐</b><small id="overallLabel">ยอดเยี่ยมมาก!</small></div>
+    </div>
+
+    <div class="reward-missions" id="overallScores"></div>
+
+    <div class="reward-actions">
+      <button class="btn" onclick="resetAllGame()">🔄 เล่นใหม่ทั้งหมด</button>
+      <button class="btn purple" onclick="go('home')">🏠 กลับสู่หน้าหลัก</button>
+    </div>
+
+    <div class="reward-message" id="overallMessage">
+      💡 เก่งมาก! คุณเรียนรู้เกี่ยวกับร่างกายได้อย่างยอดเยี่ยม ❤️
+    </div>
+  </div>
+</section>
 </div>
 <div class="toast" id="toast"></div><div class="modal-shell" id="lobbyModal" role="dialog" aria-modal="true"><div class="modal-card"><h2 id="modalTitle">วิธีเล่น</h2><div id="modalContent"></div><button class="btn" style="margin-top:15px" onclick="closeLobbyModal()">ปิด</button></div></div>
 <div class="standard-modal" id="summaryModal"><div class="standard-card"><h2>🏆 ภารกิจสำเร็จ!</h2><h3 id="summaryName">MISSION COMPLETE</h3><div class="summary-stars" id="summaryStars">⭐⭐⭐</div><div class="summary-stats"><span id="summaryScore">คะแนน 0 / 0</span><span id="summaryCorrect">✓ ตอบถูก 0 ข้อ</span><span id="summaryWrong">✗ ตอบผิด 0 ข้อ</span><span id="summaryAnswered">🎯 ทำภารกิจครบ 0 / 0</span></div><div class="summary-actions"><button class="btn ghost" onclick="replaySummary()">🔄 เล่นด่านนี้อีกครั้ง</button><button class="btn green" id="summaryNext" onclick="nextSummary()">➡ ไปด่านถัดไป</button></div></div></div>
@@ -2039,6 +2810,166 @@ startM3=function(){
   },300);
 })();
 </script>
+
+
+<script id="m5-summary-redesign-final-js">
+(function(){
+  const letters=['A','B','C','D'];
+
+  // Rebuild only Mission 5 rendering/feedback; keep existing scoring/data.
+  window.renderCase=function(){
+    if(cIndex>=casePool.length) return completeMission(4,cCorrect,5,cWrong,'reward');
+
+    cLocked=false;
+    const c=casePool[cIndex];
+
+    const img=document.getElementById('patientImg');
+    const title=document.getElementById('patientTitle');
+    const txt=document.getElementById('patientText');
+    const score=document.getElementById('m5score');
+    const feedback=document.getElementById('m5feedback');
+
+    if(img) img.src=A+c.img;
+    if(title) title.textContent=c.title;
+    if(txt) txt.textContent=c.text;
+    if(score) score.textContent=`คะแนน ${cCorrect}/5 • เคส ${cIndex+1}/5`;
+    if(feedback){feedback.className='feedback m5-feedback-card';feedback.textContent='';}
+
+    const choices=shuffle([
+      organs.find(o=>o.id===c.ans),
+      ...shuffle(organs.filter(o=>['brain','heart','lungs','stomach','eye','ear'].includes(o.id)&&o.id!==c.ans)).slice(0,3)
+    ]);
+
+    const box=document.getElementById('diagOptions');
+    box.innerHTML='';
+
+    choices.forEach((o,i)=>{
+      const d=document.createElement('button');
+      d.type='button';
+      d.className='diag-option';
+      d.dataset.organ=o.id;
+      d.dataset.letter=letters[i];
+      d.innerHTML=`<img src="${A+o.img}" alt="${o.th}"><span>${o.th}</span>`;
+      d.onclick=()=>checkCase(o.id,d);
+      box.appendChild(d);
+    });
+  };
+
+  window.checkCase=function(id,d){
+    if(cLocked) return;
+    cLocked=true;
+
+    const c=casePool[cIndex];
+    const ok=id===c.ans;
+    const answer=organs.find(o=>o.id===c.ans);
+    const feedback=document.getElementById('m5feedback');
+    const correct=[...document.querySelectorAll('#diagOptions .diag-option')]
+      .find(x=>x.dataset.organ===c.ans);
+
+    document.querySelectorAll('#diagOptions .diag-option').forEach(x=>x.disabled=true);
+
+    if(ok){
+      cCorrect++;
+      d.classList.add('correct');
+      feedback.innerHTML=`<b>✓ ถูกต้อง!</b><br>คำตอบที่ถูกคือ <strong>${answer.th}</strong>`;
+      feedback.className='feedback m5-feedback-card show good';
+    }else{
+      cWrong++;
+      d.classList.add('wrong');
+      correct?.classList.add('correct');
+      feedback.innerHTML=`<b>✕ ยังไม่ถูก</b><br>คำตอบที่ถูกคือ <strong>${answer.th}</strong>`;
+      feedback.className='feedback m5-feedback-card show bad';
+    }
+
+    cIndex++;
+    setTimeout(()=>{
+      feedback.className='feedback m5-feedback-card';
+      renderCase();
+    }, ok?1500:2200);
+  };
+
+  // Overall summary: no character image, compact and viewport-safe.
+  window.renderOverallScores=function(){
+    let score=0,total=0,correct=0,wrong=0,done=0;
+    const missionTotals=[8,6,6,6,5];
+    const box=document.getElementById('overallScores');
+    if(!box) return;
+    box.innerHTML='';
+
+    missionScores.forEach((d,i)=>{
+      const sc=d?.score||0;
+      const tt=d?.total||missionTotals[i];
+      score+=sc;
+      total+=tt;
+      correct+=d?.correct||sc;
+      wrong+=d?.wrong||0;
+      if(completed[i]) done++;
+
+      const card=document.createElement('div');
+      card.className='reward-mission-card';
+      card.innerHTML=`<span>ด่าน ${i+1}</span><b>${sc}/${tt}</b><small>${d?.stars||'—'}</small>`;
+      box.appendChild(card);
+    });
+
+    const pct=total?Math.round(score/total*100):0;
+    const stars=pct>=80?'⭐⭐⭐⭐⭐':pct>=60?'⭐⭐⭐⭐':pct>=40?'⭐⭐⭐':pct>=20?'⭐⭐':'⭐';
+    const rank=pct>=90?'S':pct>=80?'A':pct>=70?'B':pct>=60?'C':'D';
+    const label=pct>=90?'ยอดเยี่ยมมาก!':pct>=80?'ดีเยี่ยม!':pct>=70?'ดีมาก!':pct>=60?'ทำได้ดี!':'ลองอีกครั้งเพื่อพัฒนา';
+
+    document.getElementById('overallTotal').textContent=`${score}/${total}`;
+    document.getElementById('overallPercent').textContent=`${pct}%`;
+    document.getElementById('overallCorrect').textContent=correct;
+    document.getElementById('overallWrong').textContent=wrong;
+    document.getElementById('overallCompleted').textContent=`${done}/5`;
+    document.getElementById('overallStars').textContent=stars;
+    document.getElementById('overallRank').textContent=rank;
+    document.getElementById('overallLabel').textContent=label;
+    document.getElementById('overallMessage').textContent=
+      pct>=80?'💡 เก่งมาก! คุณเรียนรู้เกี่ยวกับร่างกายได้อย่างยอดเยี่ยม ❤️':
+      '💡 ทำได้ดี! ลองเล่นอีกครั้งเพื่อเพิ่มคะแนนและความแม่นยำ';
+  };
+
+  // Mission 5 hand-tracking remains compatible because choices keep .diag-option.
+})();
+</script>
+
+
+<script id="m5-question-text-patch">
+(function(){
+  const oldRenderCase = window.renderCase;
+  window.renderCase = function(){
+    oldRenderCase();
+    try{
+      const c = casePool && casePool[cIndex];
+      const q = document.getElementById('m5CaseQuestion');
+      if(q && c){
+        if(c.ans==='stomach') q.textContent='อวัยวะใดช่วยย่อยอาหารและเกี่ยวข้องกับอาการปวดท้อง?';
+        else if(c.ans==='brain') q.textContent='อวัยวะใดอยู่ในศีรษะและช่วยควบคุมร่างกาย?';
+        else if(c.ans==='lungs') q.textContent='อวัยวะใดเกี่ยวข้องกับการหายใจ?';
+        else if(c.ans==='eye') q.textContent='อวัยวะใดเกี่ยวข้องกับการมองเห็น?';
+        else if(c.ans==='ear') q.textContent='อวัยวะใดเกี่ยวข้องกับการได้ยิน?';
+        else if(c.ans==='heart') q.textContent='อวัยวะใดช่วยสูบฉีดเลือดไปทั่วร่างกาย?';
+        else q.textContent='อวัยวะใดควรตรวจจากอาการของคนไข้?';
+      }
+    }catch(e){}
+  };
+})();
+</script>
+
+
+<script id="m5-final-clean-text-patch">
+(function(){
+  const previousRenderCase = window.renderCase;
+  window.renderCase = function(){
+    previousRenderCase();
+    const q = document.getElementById('m5CaseQuestion');
+    if(q) q.textContent = 'ควรตรวจอวัยวะใด?';
+  };
+})();
+</script>
+
+
+
 
 </body>
 </html>
