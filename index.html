@@ -7,7 +7,7 @@
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <title>ครูกุ้งสอนไอที | รวมเกมการศึกษา AR</title>
-  <link rel="stylesheet" href="css/style.css?v=20260726-2">
+  <link rel="stylesheet" href="css/style.css?v=20261016-1">
 </head>
 <body>
   <div id="vipLogin" class="login-screen">
@@ -77,19 +77,30 @@
         <span class="prompt-icon">📋</span>
         <div>
           <h2 id="promptTitle">Prompt สำหรับสร้างเกม</h2>
-          <p>คัดลอก Prompt แล้วนำไปวางใน ChatGPT หรือ Codex จากนั้นปรับรายละเอียดเกมได้ตามต้องการ</p>
+          <p>ปรับเนื้อหาสำหรับวิชาและระดับชั้นใหม่ แล้วคัดลอกไปใช้กับ AI พร้อมโค้ดเกมต้นฉบับ</p>
         </div>
       </div>
+      <form id="promptForm" class="prompt-form">
+        <label class="prompt-wide">ชื่อเกมต้นฉบับ<input id="promptOriginal" readonly></label>
+        <label>วิชา<select id="promptSubject" required><option value="">เลือกวิชา</option></select></label>
+        <label>ระดับชั้น<select id="promptGrade" required><option value="">เลือกระดับชั้น</option></select></label>
+        <label class="prompt-wide">ชื่อเกมใหม่<input id="promptNewName" required maxlength="200" placeholder="ชื่อเกมที่ต้องการสร้าง"></label>
+        <label class="prompt-wide">หัวข้อหรือหน่วยการเรียนรู้<input id="promptTopic" required maxlength="500"></label>
+        <label class="prompt-wide">รายละเอียดเนื้อหา คำถาม และคำตอบที่ต้องการ<textarea id="promptDetails" required rows="5" maxlength="20000" placeholder="ระบุเนื้อหา คำถาม ตัวเลือก และเฉลยที่ต้องการ"></textarea></label>
+        <button type="submit" class="copy-prompt-btn prompt-wide">✨ สร้าง Prompt</button>
+      </form>
+      <p id="promptHint">กรอกข้อมูลแล้วกดสร้าง Prompt (ประกอบข้อความในเครื่อง ไม่มีการบันทึกลง Firestore)</p>
+      <label for="promptText">Prompt ที่สร้าง</label>
       <textarea id="promptText" readonly aria-label="ข้อความ Prompt"></textarea>
       <div class="prompt-modal-actions">
-        <button type="button" id="copyPromptBtn" class="copy-prompt-btn">📋 คัดลอก Prompt</button>
+        <button type="button" id="copyPromptBtn" disabled class="copy-prompt-btn">📋 คัดลอก Prompt</button>
         <button type="button" id="closePromptBtn" class="close-prompt-btn">ปิด</button>
       </div>
-      <div id="copyMessage" class="copy-message">✅ คัดลอก Prompt แล้ว</div>
+      <div id="copyMessage" class="copy-message" role="status" aria-live="polite">✅ คัดลอก Prompt แล้ว</div>
     </div>
   </div>
 
-  <script src="js/config.js?v=20260726-2"></script>
-  <script src="js/app.js?v=20260726-2"></script>
+  <script src="js/config.js?v=20261016-1"></script>
+  <script src="js/app.js?v=20261016-1"></script>
 </body>
 </html>
