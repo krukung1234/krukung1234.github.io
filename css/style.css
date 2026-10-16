@@ -78,3 +78,15 @@ footer{padding:36px;text-align:center;color:#60657e;font-weight:800}
 .game-card .meta{margin-top:auto;padding-top:14px}
 .game-card .meta>.tag{margin-bottom:10px}
 @media(max-width:1180px){#chips .chip{flex:0 0 210px}}
+
+/* Prompt customization: retain existing hub and modal styling. */
+.prompt-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-bottom:18px}
+.prompt-form label{display:flex;flex-direction:column;gap:7px;min-width:0;font-weight:700}
+.prompt-wide{grid-column:1/-1}
+.prompt-form input,.prompt-form select,.prompt-form textarea{width:100%;min-width:0;padding:12px;border:1px solid #dcd4ee;border-radius:12px;font:inherit;color:var(--ink);background:#fff}
+.prompt-form input[readonly]{background:#f1eefb}
+.prompt-form textarea{resize:vertical}.prompt-form :focus-visible,.prompt-modal button:focus-visible{outline:3px solid #7257ef;outline-offset:2px}
+.prompt-modal button:disabled{opacity:.55;cursor:not-allowed;box-shadow:none}
+#promptHint{color:var(--muted);font-size:14px}.copy-message.error{color:#9d2222;background:#fff0f0}
+.prompt-modal-box{max-height:calc(100dvh - 44px);overscroll-behavior:contain}
+@media(max-width:620px){.prompt-form{grid-template-columns:minmax(0,1fr)}.prompt-modal-box{max-height:calc(100dvh - 24px)}.prompt-form input,.prompt-form select,.prompt-form textarea{font-size:16px}}
